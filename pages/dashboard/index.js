@@ -1,14 +1,12 @@
-import AppLayout from "components/AppLayout";
+import AppLayoutShell from "components/AppLayoutShell";
 
-export default function PageSignIn(props)
+export default function PageDashboard(props)
 {
-    
-
     return (
         <>
-        <AppLayout>
-            dashboard
-        </AppLayout>
+        <AppLayoutShell>
+            Dashboard                
+        </AppLayoutShell>
         </>
     );
 }

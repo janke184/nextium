@@ -2,8 +2,9 @@ import AppLayout from "components/AppLayout";
 import Link from "next/link";
 import { useState } from 'react'
 import { loginWithEmailAndPassword, auth } from '/firebase/client'
-import { error_alert, ok_alert } from "utils/notifications";
+import { errorAlert } from "/utils/notifications";
 import { useRouter } from "next/router"
+import { apiCall } from "/utils/httpUtils";
 
 export default function PageSignIn(props)
 {
@@ -12,7 +13,20 @@ export default function PageSignIn(props)
 
     auth.onAuthStateChanged( (auth) => {
         if(auth){
-            router.replace('/dashboard')
+
+            apiCall('signin').then( () => {
+
+                console.log('signin onAuthStateChanged', auth)
+
+                router.replace('/dashboard')
+
+            }).catch( (error)=> {
+
+                console.log('error', error)
+                errorAlert('Unexpected error')
+
+            });
+
         }
     })
 
@@ -20,10 +34,12 @@ export default function PageSignIn(props)
 
         loginWithEmailAndPassword(state.email, state.password)
         .then( (user) => {
-            router.replace('/dashboard')
+
+            console.log('login successfull');
+
         })
         .catch( (err) => {
-            error_alert('Usuario o clave incorrectos');
+            errorAlert('Invalid user or password');
 
         })
 
@@ -75,8 +91,8 @@ export default function PageSignIn(props)
                     </form>
 
                     <div className="lcb-navigation">
-                        <Link href="/register"><a href="#" data-ma-action="login-switch" data-ma-block="#l-register"><i className="zmdi zmdi-plus"></i> <span>Register</span></a></Link>
-                        <Link href="/forgotpassword"><a href="" data-ma-action="login-switch" data-ma-block="#l-forget-password"><i>?</i> <span>Forgot Password</span></a></Link>
+                        <Link href="/signup"><a data-ma-action="login-switch" data-ma-block="#l-register"><i className="zmdi zmdi-plus"></i> <span>Register</span></a></Link>
+                        <Link href="/forgotpassword"><a data-ma-action="login-switch" data-ma-block="#l-forget-password"><i>?</i> <span>Forgot Password</span></a></Link>
                     </div>
                 </div>
             </div>

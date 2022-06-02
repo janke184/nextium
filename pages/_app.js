@@ -10,7 +10,11 @@ function MyApp({ Component, pageProps }) {
 
 		if(!auth) {
 
-			if(router.pathname!="/signin"){
+			if(
+				   router.pathname!="/signin"
+				&& router.pathname!="/signup"
+				&& router.pathname!="/forgotpassword"
+			){
 				router.replace('/signin')
 			}
 

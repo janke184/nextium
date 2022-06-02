@@ -24,8 +24,8 @@ export default function PageLogin()
                     </div>
 
                     <div className="lcb-navigation">
-                        <Link href="/login"><a href="" data-ma-action="login-switch" data-ma-block="#l-login"><i className="zmdi zmdi-long-arrow-right"></i> <span>Sign in</span></a></Link>
-                        <Link href="/register"><a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i className="zmdi zmdi-plus"></i> <span>Register</span></a></Link>
+                        <Link href="/signin"><a href="" data-ma-action="login-switch" data-ma-block="#l-login"><i className="zmdi zmdi-long-arrow-right"></i> <span>Sign in</span></a></Link>
+                        <Link href="/signup"><a href="" data-ma-action="login-switch" data-ma-block="#l-register"><i className="zmdi zmdi-plus"></i> <span>Register</span></a></Link>
                     </div>
                 </div>
             </div>

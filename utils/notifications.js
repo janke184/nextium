@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 
-export const error_alert = (title, text = '') => {
+export const errorAlert = (title, text = '') => {
 
     Swal.fire({
         title: title, 
@@ -10,7 +10,7 @@ export const error_alert = (title, text = '') => {
 
 }
 
-export const ok_alert = (title, text = '') => {
+export const okAlert = (title, text = '') => {
 
     Swal.fire({
         title: title, 
