@@ -1,32 +1,11 @@
-import { auth } from "/firebase/client";
-import { useRouter } from "next/router"
-import { useState } from "react"
+import { AuthenticatedContextProvider } from "contexts/AuthenticatedContext"
 
 function MyApp({ Component, pageProps }) {
-
-	const router = useRouter()
-
-	auth.onAuthStateChanged( (auth) => {
-
-		if(!auth) {
-
-			if(
-				   router.pathname!="/signin"
-				&& router.pathname!="/signup"
-				&& router.pathname!="/forgotpassword"
-			){
-				router.replace('/signin')
-			}
-
-		}
-
-	})
 	
-
   return (
-    <>
-      <Component {...pageProps} />
-    </>
+	<AuthenticatedContextProvider>
+		<Component {...pageProps} />
+	</AuthenticatedContextProvider>
   )
 }
 

@@ -1,45 +1,38 @@
 import AppLayout from "components/AppLayout";
 import Link from "next/link";
 import { useState } from 'react'
-import { loginWithEmailAndPassword, auth } from '/firebase/client'
-import { errorAlert } from "/utils/notifications";
+import { errorAlert, okAlert } from "/utils/notifications";
 import { useRouter } from "next/router"
 import { apiCall } from "/utils/httpUtils";
+import jsCookie from "js-cookie";
 
 export default function PageSignIn(props)
 {
     const [state, setstate] = useState({})
     const router = useRouter()
 
-    auth.onAuthStateChanged( (auth) => {
-        if(auth){
-
-            apiCall('signin').then( () => {
-
-                console.log('signin onAuthStateChanged', auth)
-
-                router.replace('/dashboard')
-
-            }).catch( (error)=> {
-
-                console.log('error', error)
-                errorAlert('Unexpected error')
-
-            });
-
-        }
-    })
-
     const handleSubmit = (event) => {
 
-        loginWithEmailAndPassword(state.email, state.password)
-        .then( (user) => {
+        apiCall('signin', {
+            username: state.email,
+            password: state.password
+        })
+        .then( (response) => {
+            
+            if(response.success && response.data.userTokenId){
 
-            console.log('login successfull');
+                jsCookie.set('userTokenId', response.data.userTokenId);
+
+                router.replace('/dashboard');
+
+            }else{
+                errorAlert('Invalid user or password (3)');
+
+            }
 
         })
         .catch( (err) => {
-            errorAlert('Invalid user or password');
+            errorAlert('Invalid user or password', err.message);
 
         })
 

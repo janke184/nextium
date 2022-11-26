@@ -2,7 +2,7 @@ import AppLayout from "components/AppLayout";
 import { useState } from "react";
 import Link from "next/link";
 import { signUp } from "/firebase/client";
-import { okAlert } from '/utils'
+import { okAlert } from "utils/notifications";
 
 
 export default function PageSignUp()

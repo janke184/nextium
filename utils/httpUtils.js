@@ -1,12 +1,9 @@
-import { getUserTokenId } from "/firebase/client";
+export const EP_SIGNIN = 'signin';
+export const EP_GET_CONNECTED_USER = 'getconnecteduser';
 
-export const apiCall = async (apiPath, data = {})=>{
+export const apiCall = async (endpoint, data = {})=>{
 
-	// Add the user credentials to post data
-	const userTokenId = await getUserTokenId();
-	data.userTokenId = userTokenId;
-
-	const url = 'http://localhost:3000/api/' + apiPath;
+	const url = 'http://localhost:3000/api/' + endpoint;
 
 	return fetch(url, {
 		method: 'POST', 
@@ -19,7 +16,7 @@ export const apiCall = async (apiPath, data = {})=>{
 		redirect: 'follow', 
 		referrerPolicy: 'no-referrer',
 		body: JSON.stringify(data) 
-	});
+	}).then(response => response.json());
 }
 
 export const replyOk = (res, data = null) => {
@@ -28,12 +25,14 @@ export const replyOk = (res, data = null) => {
 		data: data
 	});
 }
+
 export const replyErr = (res, data = null) => {
-	res.status(500).json({
+	res.status(200).json({
 		success: false,
 		data: data
 	});
 }
+
 export const replyUnauthorized = (res, data = null) => {
 	res.status(401).json({
 		success: false,

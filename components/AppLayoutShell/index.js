@@ -5,19 +5,19 @@ import SideMenu from "components/SideMenu";
 
 export default function AppLayoutShell({children})
 {
+    console.log('AppLayoutShell')
+    
     return (
-        <>
-        <AppLayout>
-            <Header/>
-            <SideMenu>
-                <section id="content">
-                    <div className="container">
-                        {children}
-                    </div>
-                </section>                
-            </SideMenu>
-            <Footer/>                
-        </AppLayout>
-        </>
+    <AppLayout>
+        <Header/>
+        <SideMenu>
+            <section id="content">
+                <div className="container">
+                {children}
+                </div>
+            </section>                
+        </SideMenu>
+        <Footer/>                
+    </AppLayout>
     )
 }
