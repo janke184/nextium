@@ -72,3 +72,23 @@ export const getConnectedUser = async (req) => {
     return result;
 
 }
+
+export const isAllowedUser = async (req) => {
+
+    // TODO: implement this function
+
+    const user = await getConnectedUser(req);
+
+    const result = {
+        success: false
+    };
+    
+    if(user)
+    {
+        result.success = true;
+        result.user = user;
+    }
+
+    return result;
+
+}

@@ -1,6 +1,6 @@
 import AppLayoutShell from "components/AppLayoutShell";
 
-export default function AccessDenied(props)
+export default function AccessDenied()
 {
     return (
         <AppLayoutShell>

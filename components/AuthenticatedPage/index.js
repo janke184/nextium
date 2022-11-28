@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import { apiCall, EP_GET_CONNECTED_USER } from "/utils/httpUtils";
 import AccessDenied from "components/AccessDenied";
 import { useAuthenticatedContext } from "contexts/AuthenticatedContext";
+import { CircularProgress } from "@mui/material";
 
-export default function AuthenticatedPage({children, props})
+export default function AuthenticatedPage({children})
 {
 	const [isLoading, setIsLoading] = useState(true);
     const {user, setUser} = useAuthenticatedContext();
@@ -19,14 +20,16 @@ export default function AuthenticatedPage({children, props})
             });
 
         }else{
-
+			setIsLoading(false);
         }
 
     }, []);
 
 
 	if(isLoading){
-		return <AppLayoutShell>Loading...</AppLayoutShell>
+		return <AppLayoutShell>
+			<CircularProgress />
+		</AppLayoutShell>
 	}
 
 	if(user){

@@ -1,10 +1,27 @@
 import AppLayout from "components/AppLayout";
-import Link from "next/link";
 import { useState } from 'react'
 import { errorAlert, okAlert } from "/utils/notifications";
 import { useRouter } from "next/router"
 import { apiCall } from "/utils/httpUtils";
 import jsCookie from "js-cookie";
+
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+
+const theme = createTheme();
+
 
 export default function PageSignIn(props)
 {
@@ -51,45 +68,75 @@ export default function PageSignIn(props)
 
     return (
         <>
-        <AppLayout>
+            <AppLayout>
 
-            <div className="login-content">
-                <div className="lc-block toggled" id="l-login">
-                    <form onSubmit={handleSubmit}>
-                        <div className="lcb-form">
-                            <div className="input-group m-b-20">
-                                <span className="input-group-addon"><i className="zmdi zmdi-email"></i></span>
-                                <div className="fg-line">
-                                    <input name="email" required onChange={handleChange} type="email" className="form-control" placeholder="Email"/>
-                                </div>
-                            </div>
-
-                            <div className="input-group m-b-20">
-                                <span className="input-group-addon"><i className="zmdi zmdi-key"></i></span>
-                                <div className="fg-line">
-                                    <input name="password" required onChange={handleChange} type="password" className="form-control" placeholder="Password"/>
-                                </div>
-                            </div>
-
-                            <div className="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""/>
-                                    <i className="input-helper"></i>
-                                    Keep me signed in
-                                </label>
-                            </div>
-
-                            <button type="submit" className="btn btn-login btn-success btn-float"><i className="zmdi zmdi-arrow-forward"></i></button>
-                        </div>
-                    </form>
-
-                    <div className="lcb-navigation">
-                        <Link href="/signup"><a data-ma-action="login-switch" data-ma-block="#l-register"><i className="zmdi zmdi-plus"></i> <span>Register</span></a></Link>
-                        <Link href="/forgotpassword"><a data-ma-action="login-switch" data-ma-block="#l-forget-password"><i>?</i> <span>Forgot Password</span></a></Link>
-                    </div>
-                </div>
-            </div>
-        </AppLayout>
+                <ThemeProvider theme={theme}>
+                    <Container component="main" maxWidth="xs">
+                        <CssBaseline />
+                        <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                        >
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <TextField
+                                margin="normal"
+                                type="email"
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                autoComplete="email"
+                                autoFocus
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                            onChange={handleChange}
+                            autoComplete="current-password"
+                            />
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                            Sign In
+                            </Button>
+                            <Grid container>
+                            <Grid item xs>
+                                <Link href="#" variant="body2">
+                                Forgot password?
+                                </Link>
+                            </Grid>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                                </Link>
+                            </Grid>
+                            </Grid>
+                        </Box>
+                        </Box>
+                    </Container>
+                </ThemeProvider>
+                
+            </AppLayout>
         </>
     );
 }

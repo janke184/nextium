@@ -1,7 +1,8 @@
 export const EP_SIGNIN = 'signin';
 export const EP_GET_CONNECTED_USER = 'getconnecteduser';
+export const EP_GET_TABLE = 'gettable';
 
-export const apiCall = async (endpoint, data = {})=>{
+export const apiCall = async (endpoint, data = {}) => {
 
 	const url = 'http://localhost:3000/api/' + endpoint;
 
