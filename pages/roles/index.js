@@ -1,13 +1,13 @@
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
-import Grid from '@mui/material/Grid';
+import {Grid, Button} from '@mui/material/';
 import Paper from '@mui/material/Paper';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
 import { getUserIdOfRequest } from "utils/pageUtils";
 import AccessDenied from "components/AccessDenied";
 
-function UsersPageContent()
+function RolesPageContent()
 {
 
     return (
@@ -18,28 +18,32 @@ function UsersPageContent()
 
 					<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
 					    
-                        <Title>Users</Title>
+                        <Title>Roles</Title>
 
                         <CRMTable 
-                            collection="users"
+                            collection="roles"
                             columns={
                                 [
                                     {
-                                        field: '_id',
-                                        headerName: 'ID',
+                                        field: 'name',
+                                        headerName: 'Role Name',
                                         minWidth: 220
-                                    },
-                                    {
-                                        field: 'username',
-                                        headerName: 'Username',
-                                        minWidth: 200
                                     }
                                 ]
                             }
+                            filter={
+                                {
+                                    deleted_date: { $eq: null }
+                                }
+                            }
+                            onRowSelectedRoute="/roles/add"
                         />
 
-					</Paper>
+                        <Grid item justifyContent="flex-start" sx={{mt: 5}}>
+                            <Button variant="outlined" href="/roles/add">New Role</Button>
+                        </Grid>
 
+					</Paper>
 				</Grid>
 
             </AppLayoutShell>
@@ -48,18 +52,18 @@ function UsersPageContent()
 }
 
 
-export default function UsersPage(props){
+export default function RolesPage(props){
 
-    console.log('PageUsers');
+    console.log('RolesPage');
 
     if(props.access_granted){
 
         return (
-            <UsersPageContent/>
+            <RolesPageContent/>
         )
 
     }else{
-
+        
         return (
             <AccessDenied/>
         )

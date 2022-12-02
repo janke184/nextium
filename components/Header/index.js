@@ -10,7 +10,8 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import React from 'react';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ArticleIcon from '@mui/icons-material/Article';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -22,6 +23,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import { useState } from 'react';
 
 
 export const mainListItems = (
@@ -33,11 +35,25 @@ export const mainListItems = (
 		<ListItemText primary="Dashboard" />
 	  </ListItemButton>
 
-	  <ListItemButton component="a" href="/users/">
+	  <ListItemButton component="a" href="/users">
 		<ListItemIcon>
 		  <PeopleIcon />
 		</ListItemIcon>
 		<ListItemText primary="Users" />
+	  </ListItemButton>
+
+	  <ListItemButton component="a" href="/roles">
+		<ListItemIcon>
+		  <ManageAccountsIcon />
+		</ListItemIcon>
+		<ListItemText primary="Roles" />
+	  </ListItemButton>
+
+	  <ListItemButton component="a" href="/pages">
+		<ListItemIcon>
+		  <ArticleIcon />
+		</ListItemIcon>
+		<ListItemText primary="Pages" />
 	  </ListItemButton>
 
 	  <ListItemButton>
@@ -62,7 +78,7 @@ export const mainListItems = (
   );
   
   export const secondaryListItems = (
-	<React.Fragment>
+	<>
 	  <ListSubheader component="div" inset>
 		Saved reports
 	  </ListSubheader>
@@ -84,7 +100,7 @@ export const mainListItems = (
 		</ListItemIcon>
 		<ListItemText primary="Year-end sale" />
 	  </ListItemButton>
-	</React.Fragment>
+	</>
   );
 
 
@@ -148,7 +164,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Header(props)
 {
-	const [open, setOpen] = React.useState(true);
+	const [open, setOpen] = useState(false);
 
 	const toggleDrawer = () => {
 	  setOpen(!open);

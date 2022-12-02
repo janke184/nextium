@@ -1,5 +1,7 @@
-import { useRouter } from "next/router"
 import { useEffect } from "react"
+import { useRouter } from "next/router"
+import { CircularProgress } from "@mui/material";
+import AppLayout from "components/AppLayout";
 
 export default function Home() {
 
@@ -11,9 +13,11 @@ export default function Home() {
 	}, [])
 
 	return (
-	<>
-	Loading...
-	</>
+		<>
+			<AppLayout>
+				<CircularProgress/>
+			</AppLayout>
+		</>
 	)
 
 }

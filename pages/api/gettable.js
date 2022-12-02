@@ -10,6 +10,7 @@ export default async function handler(req, res)
     try {
         const collection = req.body.collection;
         const columns = req.body.columns ? req.body.columns : [];
+        const filter = req.body.filter ? req.body.filter : {};
 
         let projection = {};
         columns.forEach(column => {
@@ -29,9 +30,7 @@ export default async function handler(req, res)
             const db_res = await db
                 .collection(collection)
                 .find(
-                    {
-
-                    }
+                    filter
                     ,{
                         projection: projection
                     })

@@ -1,13 +1,14 @@
-import AppLayoutShell from "components/AppLayoutShell";
-import AuthenticatedPage from "components/AuthenticatedPage";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
 import { getUserIdOfRequest } from "utils/pageUtils";
+import AppLayoutShell from "components/AppLayoutShell";
+import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
 
-function UsersPageContent()
+function PagesPageContent()
 {
 
     return (
@@ -18,28 +19,32 @@ function UsersPageContent()
 
 					<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
 					    
-                        <Title>Users</Title>
+                        <Title>Pages</Title>
 
                         <CRMTable 
-                            collection="users"
+                            collection="pages"
                             columns={
                                 [
                                     {
-                                        field: '_id',
-                                        headerName: 'ID',
+                                        field: 'name',
+                                        headerName: 'Name',
                                         minWidth: 220
-                                    },
-                                    {
-                                        field: 'username',
-                                        headerName: 'Username',
-                                        minWidth: 200
                                     }
                                 ]
                             }
+                            filter={
+                                {
+                                    deleted_date: { $eq: null }
+                                }
+                            }
+                            onRowSelectedRoute="/pages/add"
                         />
 
-					</Paper>
+                        <Grid item justifyContent="flex-start" sx={{mt: 5}}>
+                            <Button variant="outlined" href="/pages/add">New Page</Button>
+                        </Grid>
 
+					</Paper>
 				</Grid>
 
             </AppLayoutShell>
@@ -48,18 +53,18 @@ function UsersPageContent()
 }
 
 
-export default function UsersPage(props){
+export default function PagesPage(props){
 
-    console.log('PageUsers');
+    console.log('PagesPage');
 
     if(props.access_granted){
 
         return (
-            <UsersPageContent/>
+            <PagesPageContent/>
         )
 
     }else{
-
+        
         return (
             <AccessDenied/>
         )
