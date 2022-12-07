@@ -9,44 +9,46 @@ import { isAllowedUser } from "/utils/userUtils";
 export default async function handler(req, res)
 {
     try {
-        const role = req.body;
+        const user = req.body;
 
-        if(!role || !role.name){
+        if(!user || !user.username || !user.password){
             replyErr(res, 'Missing page');
             return false;
         }
 
-        // convert each role.page._id into ObjectId
-        role.pages = role.pages.map( (page) => {
-            page._id = ObjectId(page._id);
-            return page;
+        // convert each user.role._id into ObjectId
+        user.roles = user.roles.map( (role) => {
+            role._id = ObjectId(role._id);
+            return role;
         });
 
         const result = await isAllowedUser(req);
 
         if(result.success){
 
-            if(role._id){
+            if(user._id){
 
                 console.log('Update');
                 
                 // Update
                 const db = await getDb();
                 const db_res = await db
-                    .collection("roles")
+                    .collection("users")
                     .updateOne(
                         {
-                            _id: new ObjectId(role._id)
+                            _id: new ObjectId(user._id)
                         },
                         {
                             $set: {
-                                name: role.name,
-                                pages: role.pages
+                                username: user.username,
+                                password: user.password,
+                                display_name: user.display_name,
+                                roles: user.roles
                             }
                         }
                     );
 
-                replyOk(res, 'Role updated');
+                replyOk(res, 'User updated');
 
 
 
@@ -58,10 +60,10 @@ export default async function handler(req, res)
                 
                 const db = await getDb();
                 const db_res = await db
-                    .collection("roles")
-                    .insertOne(role);
+                    .collection("users")
+                    .insertOne(user);
 
-                replyOk(res, 'Role added');
+                replyOk(res, 'Users added');
 
             }
 

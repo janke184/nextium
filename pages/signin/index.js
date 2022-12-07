@@ -16,6 +16,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { EP_SIGNIN } from "utils/httpUtils";
+import { ROUTE_DASHBOARD } from "utils/routeUtils";
 
 
 const theme = createTheme();
@@ -28,7 +30,7 @@ export default function PageSignIn(props)
 
     const handleSubmit = (event) => {
 
-        apiCall('signin', {
+        apiCall(EP_SIGNIN, {
             username: state.email,
             password: state.password
         })
@@ -38,7 +40,7 @@ export default function PageSignIn(props)
 
                 jsCookie.set('userTokenId', response.data.userTokenId);
 
-                router.replace('/dashboard');
+                router.replace(ROUTE_DASHBOARD);
 
             }else{
                 errorAlert('Invalid user or password (3)');

@@ -1,5 +1,5 @@
 import { getUserIdOfRequest } from "utils/pageUtils";
-import { apiCall, EP_DELETE_ROLE, EP_ADD_ROLE } from "utils/httpUtils";
+import { apiCall, EP_DELETE_USER, EP_ADD_USER } from "utils/httpUtils";
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
@@ -19,35 +19,36 @@ import {Card
     , Autocomplete
     , createFilterOptions
 } from '@mui/material';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import { getDb } from "connection/connect";
 import { ObjectID } from "bson";
 import { isAllowedUser } from "utils/userUtils";
+import { ROUTE_USERS } from "utils/routeUtils";
 
 const filter = createFilterOptions();
 
-function AddRolePageContent(props)
+function AddUserPageContent(props)
 {
     const router = useRouter();
 
-    const [role, setRole] = useState(props.role);
+    const [user, setUser] = useState(props.user);
 
     const [loading, setLoading] = useState(false);
 
-    const [pages] = useState(props.pages);
+    const [roles] = useState(props.roles);
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
 
         setLoading(true);
-        apiCall(EP_ADD_ROLE, role).then((response) => {
+        apiCall(EP_ADD_USER, user).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/roles');
+                router.replace(ROUTE_USERS);
 
             }else{
-                errorAlert('Unable to add role');
+                errorAlert('Unable to add user');
             }
         });
     }
@@ -56,13 +57,13 @@ function AddRolePageContent(props)
         event.preventDefault();
 
         setLoading(true);
-        apiCall(EP_DELETE_ROLE, {_id: role._id}).then((response) => {
+        apiCall(EP_DELETE_USER, {_id: user._id}).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/roles');
+                router.replace(ROUTE_USERS);
 
             }else{
-                errorAlert('Unable to delete role');
+                errorAlert('Unable to delete user');
             }
         });
     }
@@ -73,18 +74,18 @@ function AddRolePageContent(props)
             return;
         }
         
-        // if endpoint exists, ignore it
-        const isExisting = role.pages.some((elem) => elem._id === newValue._id );
+        // if role exists, ignore it
+        const isExisting = user.roles.some((elem) => elem._id === newValue._id );
 
         if(isExisting){
             return;
         }
 
 
-        setRole({
-            ...role,
-            pages: [
-                ...role.pages,
+        setUser({
+            ...user,
+            roles: [
+                ...user.roles,
                 newValue
             ]
         });
@@ -98,7 +99,7 @@ function AddRolePageContent(props)
     const onChangeHandler = (event) => {
 
         // create a new object with target name as key and target value as value
-        setRole({ ...role, [event.target.name]: event.target.value });
+        setUser({ ...user, [event.target.name]: event.target.value });
 
     }
 
@@ -120,26 +121,34 @@ function AddRolePageContent(props)
 
                                 <Button onClick={onBackClickHandler} startIcon={<ArrowBackIcon/>}>Back</Button>
 
-                                <CardHeader title="New Role" subheader=""/>
+                                <CardHeader title="New User" subheader=""/>
 
                                 <CardContent>
 
                                     <div className="my-form">
 
                                         <Grid item>
-                                            <TextField InputLabelProps={{ shrink: role.name ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="name" label="Display name" variant="outlined" value={role.name} />
+                                            <TextField type="email" InputLabelProps={{ shrink: user.username ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="username" label="Username" variant="outlined" value={user.username} />
+                                        </Grid>
+
+                                        <Grid item>
+                                            <TextField InputLabelProps={{ shrink: user.username ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="display_name" label="Display Name" variant="outlined" value={user.display_name} />
+                                        </Grid>
+
+                                        <Grid item>
+                                            <TextField InputLabelProps={{ shrink: user.username ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="password" label="Password" variant="outlined" value={user.password} />
                                         </Grid>
 
                                         <Grid item>
                                             <Autocomplete
-                                                name="pages"
+                                                name="roles"
                                                 disablePortal
                                                 onChange={onChangeAutocompleteHandler}
                                                 onSubmit={onChangeAutocompleteHandler}
-                                                options={pages}
+                                                options={roles}
                                                 sx={{ width: '100%' }}
-                                                renderInput={(params) => <TextField {...params} label="Available pages" />}
-                                                renderOption={(props, option) => <li name="page" {...props}>{ option.name }</li>}
+                                                renderInput={(params) => <TextField {...params} label="Available roles" />}
+                                                renderOption={(props, option) => <li name="role" {...props}>{ option.name }</li>}
                                                 getOptionLabel={(option) => option.name}
                                                 freeSolo
                                                 selectOnFocus
@@ -148,17 +157,17 @@ function AddRolePageContent(props)
                                         </Grid>
 
                                         <Grid item>
-                                            <label>Pages of this role</label>
+                                            <label>Roles of this user</label>
                                             <Box sx={{ height: 400, width: '100%' }}>
                                                 <DataGrid
-                                                    rows={role.pages}
+                                                    rows={user.roles}
                                                     getRowId={(row) => {
                                                         return row._id;
                                                     } }
                                                     columns={[
                                                         {
                                                             field: 'name',
-                                                            headerName: 'Page',
+                                                            headerName: 'Role Name',
                                                             width: 250
                                                         },
                                                         {
@@ -169,10 +178,10 @@ function AddRolePageContent(props)
                                                                     <IconButton 
                                                                         color="error"
                                                                         onClick={() => {
-                                                                            const newPages = role.pages.filter((elem) => elem._id !== params.row._id);
-                                                                            setRole({
-                                                                                ...role,
-                                                                                pages: newPages
+                                                                            const newRoles = user.roles.filter((elem) => elem._id !== params.row._id);
+                                                                            setUser({
+                                                                                ...user,
+                                                                                roles: newRoles
                                                                             });
                                                                         }
                                                                          }>
@@ -218,7 +227,7 @@ function AddRolePageContent(props)
 
                                     <Button
                                         variant="outlined"
-                                        disabled={loading || !role._id}
+                                        disabled={loading || !user._id}
                                         color="error"
                                         onClick={onDeleteClickHandler}
                                         endIcon={<DeleteIcon/>}
@@ -249,13 +258,13 @@ function AddRolePageContent(props)
     )
 }
 
-export default function AddRole(props){
+export default function AddUser(props){
 
     if(props.access_granted){
 
         return (
             // add props to the component
-            <AddRolePageContent {...props}/>
+            <AddUserPageContent {...props}/>
         )
 
     }else{
@@ -272,11 +281,11 @@ export const getServerSideProps = async ({req, query}) =>
 {
     const allowed = await isAllowedUser(req);
 
-    let role = {
-        pages: []
+    let user = {
+        roles: []
     };
 
-    let pages = [];
+    let roles = [];
 
     if(allowed.success){
 
@@ -288,26 +297,26 @@ export const getServerSideProps = async ({req, query}) =>
 
         if(_id){
         
-            // Look for the role
-            role = await db.collection('roles').findOne({_id: ObjectID(_id)});
+            // Look for the user
+            user = await db.collection('users').findOne({_id: ObjectID(_id)});
 
             // serialize the object
-            role = JSON.parse(JSON.stringify(role));
+            user = JSON.parse(JSON.stringify(user));
 
-            if(!role.pages){
-                role.pages = [];
+            if(!user.roles){
+                user.roles = [];
             }
 
 
         }
 
-        // Looking for pages
-        pages = await db.collection('pages').find({
+        // Looking for roles
+        roles = await db.collection('roles').find({
             deleted_date: {$eq: null}
         }).toArray();
 
         // serialize the object
-        pages = JSON.parse(JSON.stringify(pages));
+        roles = JSON.parse(JSON.stringify(roles));
 
     }
 
@@ -315,8 +324,8 @@ export const getServerSideProps = async ({req, query}) =>
     return {
       props: {
         access_granted: await getUserIdOfRequest(req) ? true : false,
-        role: role,
-        pages: pages
+        user: user,
+        roles: roles
       },
     };
 
