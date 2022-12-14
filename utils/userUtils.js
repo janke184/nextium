@@ -1,5 +1,5 @@
-import { getDb } from "connection/connect";
-import { decodeJWTUserToken } from "./tokenUtils";
+import { getDb } from "/connection/connect";
+import { decodeJWTUserToken } from "/utils/tokenUtils";
 
 export const getConnectedUser = async (req) => {
 
@@ -73,9 +73,7 @@ export const getConnectedUser = async (req) => {
 
 }
 
-export const isAllowedUser = async (req) => {
-
-    // TODO: implement this function
+export const isAllowedUser = async (req, route) => {
 
     const user_resp = await getConnectedUser(req);
 
@@ -85,10 +83,97 @@ export const isAllowedUser = async (req) => {
     
     if(user_resp.success)
     {
-        result.success = true;
         result.user = user_resp.user;
+
+        let allowed = false;
+
+        // if req.url starts with /api
+        if(req.url.startsWith('/api')){
+
+            // check if user has that endpont in its routes
+            console.log('Is an API Call');
+            allowed = isAllowedToAccessEndpoint(req.url, user_resp);
+            
+        }else{
+
+            // Check if user has that page in its routes
+            console.log('Is a page request');
+            allowed = isAllowedToAccessPage(route, user_resp);
+
+        }
+
+        console.log('allowed', allowed);
+
+        if(allowed){
+            result.success = true;
+        }
+
+        
     }
 
     return result;
+
+}
+
+const isAllowedToAccessPage = (url, user_resp) => {
+
+    console.log('URL', url);
+    
+    if(url){
+
+        // if user has any page with any route that matches the url, then he is allowed
+        const allowed = user_resp.user.roles.find( (role) => {
+
+            console.log('role', role.name);
+
+            return role.pages.find( (page) => 
+            {
+                console.log('route', page.route);
+                
+                return url == page.route;
+            });
+        });
+
+        return allowed;
+
+    }else{
+
+        console.log('Missing url');
+        return undefined;
+
+    }
+
+}
+
+const isAllowedToAccessEndpoint = (url, user_resp) => {
+
+    console.log('URL', url);
+    
+    if(url){
+
+        // if user has any role with any page with any endopoint that matches the url, then he is allowed
+        const allowed = user_resp.user.roles.find( (role) => {
+
+            console.log('role', role.name);
+
+            return role.pages.find( (page) =>
+            {
+                console.log('page', page.name);
+
+                return page.endpoints.find( (endpoint) =>
+                {
+                    console.log('endpoint', endpoint.endpoint);
+
+                    return url == '/api' + endpoint.endpoint;
+                });
+            });
+        });
+
+        return allowed;
+
+    }else{
+        return undefined;
+
+    }
 
 }

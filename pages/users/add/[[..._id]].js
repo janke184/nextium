@@ -1,4 +1,3 @@
-import { getUserIdOfRequest } from "utils/pageUtils";
 import { apiCall, EP_DELETE_USER, EP_ADD_USER } from "utils/httpUtils";
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
@@ -24,7 +23,7 @@ import { useRouter } from "next/router";
 import { getDb } from "connection/connect";
 import { ObjectID } from "bson";
 import { isAllowedUser } from "utils/userUtils";
-import { ROUTE_USERS } from "utils/routeUtils";
+import { ROUTE_USERS, ROUTE_USERS_ADD } from "utils/routeUtils";
 
 const filter = createFilterOptions();
 
@@ -279,7 +278,7 @@ export default function AddUser(props){
 
 export const getServerSideProps = async ({req, query}) =>
 {
-    const allowed = await isAllowedUser(req);
+    const allowed = await isAllowedUser(req, ROUTE_USERS_ADD);
 
     let user = {
         roles: []
@@ -323,7 +322,7 @@ export const getServerSideProps = async ({req, query}) =>
 
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false,
+        access_granted: allowed.success,
         user: user,
         roles: roles
       },

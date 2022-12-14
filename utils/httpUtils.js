@@ -1,4 +1,5 @@
 export const EP_SIGNIN = '/signin';
+
 export const EP_GET_CONNECTED_USER = '/getconnecteduser';
 export const EP_GET_TABLE = '/gettable';
 

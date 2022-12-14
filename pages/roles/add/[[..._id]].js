@@ -1,8 +1,7 @@
-import { getUserIdOfRequest } from "utils/pageUtils";
-import { apiCall, EP_DELETE_ROLE, EP_ADD_ROLE } from "utils/httpUtils";
-import AppLayoutShell from "components/AppLayoutShell";
-import AuthenticatedPage from "components/AuthenticatedPage";
-import AccessDenied from "components/AccessDenied";
+import { apiCall, EP_DELETE_ROLE, EP_ADD_ROLE } from "/utils/httpUtils";
+import AppLayoutShell from "/components/AppLayoutShell";
+import AuthenticatedPage from "/components/AuthenticatedPage";
+import AccessDenied from "/components/AccessDenied";
 import { DataGrid } from '@mui/x-data-grid';
 import { errorAlert } from "/utils/notifications";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -19,11 +18,12 @@ import {Card
     , Autocomplete
     , createFilterOptions
 } from '@mui/material';
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getDb } from "connection/connect";
+import { getDb } from "/connection/connect";
 import { ObjectID } from "bson";
-import { isAllowedUser } from "utils/userUtils";
+import { isAllowedUser } from "/utils/userUtils";
+import { ROUTE_ROLES_ADD } from "/utils/routeUtils";
+import { useState } from "react";
 
 const filter = createFilterOptions();
 
@@ -157,9 +157,14 @@ function AddRolePageContent(props)
                                                     } }
                                                     columns={[
                                                         {
+                                                            field: 'route',
+                                                            headerName: 'Route',
+                                                            width: 250
+                                                        },
+                                                        {
                                                             field: 'name',
                                                             headerName: 'Page',
-                                                            width: 250
+                                                            width: 200
                                                         },
                                                         {
                                                             field: 'action',
@@ -270,7 +275,7 @@ export default function AddRole(props){
 
 export const getServerSideProps = async ({req, query}) =>
 {
-    const allowed = await isAllowedUser(req);
+    const allowed = await isAllowedUser(req, ROUTE_ROLES_ADD);
 
     let role = {
         pages: []
@@ -314,7 +319,7 @@ export const getServerSideProps = async ({req, query}) =>
 
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false,
+        access_granted: allowed.success,
         role: role,
         pages: pages
       },

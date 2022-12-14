@@ -22,6 +22,8 @@ export default async function handler(req, res)
             return page;
         });
 
+        console.log('req', req);
+        
         const result = await isAllowedUser(req);
 
         if(result.success){

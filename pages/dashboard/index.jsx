@@ -6,6 +6,9 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import AuthenticatedPage from 'components/AuthenticatedPage';
 import AppLayoutShell from 'components/AppLayoutShell';
+import { isAllowedUser } from 'utils/userUtils';
+import { ROUTE_DASHBOARD } from 'utils/routeUtils';
+import AccessDenied from 'components/AccessDenied';
 
 
 function DashboardContent() {
@@ -59,6 +62,23 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Dashboard(props) {
+	if(props.access_granted){
+
+		return <DashboardContent />;
+	}else{
+
+		return <AccessDenied></AccessDenied>
+	}
+}
+
+export const getServerSideProps = async ({req}) => {
+
+	const allowed = await isAllowedUser(req, ROUTE_DASHBOARD);
+
+	return {
+		props: {
+			access_granted: allowed.success
+		}
+	};
 }

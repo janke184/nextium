@@ -4,9 +4,9 @@ import Grid from '@mui/material/Grid';
 import {Paper, Button} from '@mui/material/';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
-import { getUserIdOfRequest } from "utils/pageUtils";
 import AccessDenied from "components/AccessDenied";
-import { ROUTE_USERS_ADD } from "utils/routeUtils";
+import { ROUTE_USERS, ROUTE_USERS_ADD } from "utils/routeUtils";
+import { isAllowedUser } from "utils/userUtils";
 
 function UsersPageContent()
 {
@@ -87,9 +87,11 @@ export default function UsersPage(props){
 
 export const getServerSideProps = async ({ req, res }) => 
 {
+    const allowed = await isAllowedUser(req, ROUTE_USERS);
+
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false
+        access_granted: allowed.success
       },
     };
 

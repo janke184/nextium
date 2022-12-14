@@ -1,4 +1,3 @@
-import { getUserIdOfRequest } from "utils/pageUtils";
 import { apiCall, EP_DELETE_PAGE, EP_ADD_PAGE } from "utils/httpUtils";
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
@@ -24,6 +23,7 @@ import { useRouter } from "next/router";
 import { getDb } from "connection/connect";
 import { ObjectID } from "bson";
 import { isAllowedUser } from "utils/userUtils";
+import { ROUTE_PAGES_ADD } from "utils/routeUtils";
 
 const filter = createFilterOptions();
 
@@ -329,7 +329,7 @@ export default function AddPage(props){
 
 export const getServerSideProps = async ({req, query}) =>
 {
-    const allowed = await isAllowedUser(req);
+    const allowed = await isAllowedUser(req, ROUTE_PAGES_ADD);
 
     let page = {
         endpoints: []
@@ -390,7 +390,7 @@ export const getServerSideProps = async ({req, query}) =>
 
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false,
+        access_granted: allowed.success,
         page: page,
         endpoints: endpoints
       },

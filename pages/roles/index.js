@@ -1,11 +1,12 @@
-import AppLayoutShell from "components/AppLayoutShell";
-import AuthenticatedPage from "components/AuthenticatedPage";
+import AppLayoutShell from "/components/AppLayoutShell";
+import AuthenticatedPage from "/components/AuthenticatedPage";
 import {Grid, Button} from '@mui/material/';
 import Paper from '@mui/material/Paper';
-import CRMTable from "components/CRMTable";
-import Title from "components/Title";
-import { getUserIdOfRequest } from "utils/pageUtils";
-import AccessDenied from "components/AccessDenied";
+import CRMTable from "/components/CRMTable";
+import Title from "/components/Title";
+import AccessDenied from "/components/AccessDenied";
+import { isAllowedUser } from "/utils/userUtils";
+import { ROUTE_ROLES } from "/utils/routeUtils";
 
 function RolesPageContent()
 {
@@ -73,11 +74,13 @@ export default function RolesPage(props){
 }
 
 
-export const getServerSideProps = async ({ req, res }) => 
+export const getServerSideProps = async ({ req }) => 
 {
+    const allowed = await isAllowedUser(req, ROUTE_ROLES);
+
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false
+        access_granted: allowed.success
       },
     };
 

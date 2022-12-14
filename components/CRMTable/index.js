@@ -3,11 +3,17 @@ import { apiCall, EP_GET_TABLE } from 'utils/httpUtils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
+
 export default function CRMTable(props, children){
 
 	const [rows, setRows] = useState([]);
 	const columns = props.columns ? props.columns : [];
 	const router = useRouter();
+
+	const rows_height = props.rowsHeight ? props.rowsHeight : 52;
+	const rows_to_show = props.rowsToShow ? props.rowsToShow : 10;
+	const header_height = props.headerHeight ? props.headerHeight : 50;
+	const footer_height = props.footerHeight ? props.footerHeight : 50;
 
 	const onRowSelectedRoute = props.onRowSelectedRoute;
 
@@ -43,7 +49,7 @@ export default function CRMTable(props, children){
 
     return (
 		<>
-			<div style={{ height: 300, width: '100%' }}>
+			<div style={{ height: (rows_height * rows_to_show + header_height + footer_height) +'px', width: '100%' }}>
 					<DataGrid
 						getRowId={(row) => row._id}
 						rows={rows}

@@ -3,10 +3,11 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
-import { getUserIdOfRequest } from "utils/pageUtils";
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
+import { isAllowedUser } from 'utils/userUtils';
+import { ROUTE_PAGES } from 'utils/routeUtils';
 
 function PagesPageContent()
 {
@@ -26,10 +27,15 @@ function PagesPageContent()
                             columns={
                                 [
                                     {
+                                        field: 'route',
+                                        headerName: 'Route',
+                                        minWidth: 220
+                                    },
+                                    {
                                         field: 'name',
                                         headerName: 'Name',
                                         minWidth: 220
-                                    }
+                                    }                                    
                                 ]
                             }
                             filter={
@@ -38,6 +44,7 @@ function PagesPageContent()
                                 }
                             }
                             onRowSelectedRoute="/pages/add"
+                            rowsToShow={10}
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
@@ -76,9 +83,11 @@ export default function PagesPage(props){
 
 export const getServerSideProps = async ({ req, res }) => 
 {
+    const allowed = await isAllowedUser(req, ROUTE_PAGES);
+
     return {
       props: {
-        access_granted: await getUserIdOfRequest(req) ? true : false
+        access_granted: allowed.success
       },
     };
 
