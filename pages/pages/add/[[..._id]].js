@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 import { getDb } from "connection/connect";
 import { ObjectID } from "bson";
 import { isAllowedUser } from "utils/userUtils";
-import { ROUTE_PAGES_ADD } from "utils/routeUtils";
+import { ROUTE_PAGES, ROUTE_PAGES_ADD } from "utils/routeUtils";
 
 const filter = createFilterOptions();
 
@@ -44,7 +44,7 @@ function AddPageContent(props)
         apiCall(EP_ADD_PAGE, page).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/pages');
+                router.replace( ROUTE_PAGES );
 
             }else{
                 errorAlert('Unable to add page');
@@ -59,7 +59,7 @@ function AddPageContent(props)
         apiCall(EP_DELETE_PAGE, {_id: page._id}).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/pages');
+                router.replace( ROUTE_PAGES );
 
             }else{
                 errorAlert('Unable to delete page');
@@ -218,7 +218,7 @@ function AddPageContent(props)
                                                         {
                                                             field: 'endpoint',
                                                             headerName: 'Endpoint',
-                                                            width: 250
+                                                            flex: 1
                                                         },
                                                         {
                                                             field: 'action',
@@ -238,7 +238,9 @@ function AddPageContent(props)
                                                                         <DeleteIcon/>
                                                                     </IconButton>
                                                                 </strong>
-                                                            )
+                                                            ),
+                                                            align: 'center',
+                                                            flex: 0.2
                                                         }
                                                     ]
                                                     }

@@ -16,7 +16,8 @@ import {Card
     , Button
     , IconButton
     , Autocomplete
-    , createFilterOptions
+    , createFilterOptions,
+    Checkbox
 } from '@mui/material';
 import { useRouter } from "next/router";
 import { getDb } from "/connection/connect";
@@ -24,8 +25,7 @@ import { ObjectID } from "bson";
 import { isAllowedUser } from "/utils/userUtils";
 import { ROUTE_ROLES_ADD } from "/utils/routeUtils";
 import { useState } from "react";
-
-const filter = createFilterOptions();
+import { ROUTE_ROLES } from "utils/routeUtils";
 
 function AddRolePageContent(props)
 {
@@ -44,7 +44,7 @@ function AddRolePageContent(props)
         apiCall(EP_ADD_ROLE, role).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/roles');
+                router.replace( ROUTE_ROLES );
 
             }else{
                 errorAlert('Unable to add role');
@@ -59,7 +59,7 @@ function AddRolePageContent(props)
         apiCall(EP_DELETE_ROLE, {_id: role._id}).then((response) => {
             setLoading(false);
             if(response.success){
-                router.replace('/roles');
+                router.replace( ROUTE_ROLES );
 
             }else{
                 errorAlert('Unable to delete role');
@@ -112,7 +112,7 @@ function AddRolePageContent(props)
                 
                 <Grid container>
 
-                    <Grid item xs={12} md={6} >
+                    <Grid item xs={12} md={12} >
 
                         <Card sx={{ minWidth: 275 }}>
 
@@ -150,7 +150,14 @@ function AddRolePageContent(props)
                                         <Grid item>
                                             <label>Pages of this role</label>
                                             <Box sx={{ height: 400, width: '100%' }}>
-                                                <DataGrid
+                                                <DataGrid       
+                                                    initialState={{
+                                                        sorting: {
+                                                            sortModel: [
+                                                                { field: 'visible', sort: 'desc' }
+                                                            ],
+                                                        },
+                                                    }}                                             
                                                     rows={role.pages}
                                                     getRowId={(row) => {
                                                         return row._id;
@@ -159,12 +166,73 @@ function AddRolePageContent(props)
                                                         {
                                                             field: 'route',
                                                             headerName: 'Route',
-                                                            width: 250
+                                                            flex: 1
                                                         },
                                                         {
                                                             field: 'name',
                                                             headerName: 'Page',
-                                                            width: 200
+                                                            flex: 1
+                                                        },
+                                                        {
+                                                            field: 'icon',
+                                                            headerName: 'Icon',
+                                                            flex: 1,
+                                                            editable: true,
+                                                            valueSetter: (params) => {
+
+                                                                params.row.icon = params.value;
+
+                                                                const newPages = role.pages.map( (page) => {
+                                                                    if(page._id == params.row._id){
+                                                                        return params.row;
+                                                                    }
+                                                                    return page;
+                                                                });
+                                                                setRole({
+                                                                    ...role,
+                                                                    pages: newPages
+                                                                });                                                                
+                                                                
+                                                                return { 
+                                                                    ...params.row
+                                                                };
+                                                            }
+                                                        },
+                                                        {
+                                                            field: 'order',
+                                                            headerName: 'Order',
+                                                            flex: 1,       
+                                                            type: 'number',
+                                                            editable: true
+                                                        },
+                                                        {
+                                                            field: 'visible',
+                                                            headerName: 'Visible',
+                                                            renderCell: (params) => (
+                                                                <Checkbox
+                                                                    value={params.row.visible===true}
+                                                                    checked={params.row.visible===true}
+                                                                    onChange={(event) => {
+                                                                        console.log('event', event.target.checked);
+                                                                        const newPages = role.pages.map((elem) => {
+                                                                            if(elem._id === params.row._id){
+                                                                                return {
+                                                                                    ...elem,
+                                                                                    visible: event.target.checked
+                                                                                }
+                                                                            }
+                                                                            return elem;
+                                                                        });
+                                                                        setRole({
+                                                                            ...role,
+                                                                            pages: newPages
+                                                                        });
+                                                                    }
+                                                                }>
+                                                                </Checkbox>
+                                                            ),
+                                                            align: 'center',
+                                                            flex: 1
                                                         },
                                                         {
                                                             field: 'action',
@@ -184,7 +252,9 @@ function AddRolePageContent(props)
                                                                         <DeleteIcon/>
                                                                     </IconButton>
                                                                 </strong>
-                                                            )
+                                                            ),
+                                                            align: 'center',
+                                                            flex: 0.2
                                                         }
                                                     ]
                                                     }

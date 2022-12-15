@@ -10,102 +10,17 @@ import Badge from '@mui/material/Badge';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import ArticleIcon from '@mui/icons-material/Article';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
 import { useState } from 'react';
+import { useAuthenticatedContext } from 'contexts/AuthenticatedContext';
 
+import GenericIcon from '/components/GenericIcon';
+import Link from 'next/link';
 
-export const mainListItems = (
-	<>
-	  <ListItemButton component="a" href="/dashboard">
-		<ListItemIcon>
-		  <DashboardIcon />
-		</ListItemIcon>
-		<ListItemText primary="Dashboard" />
-	  </ListItemButton>
-
-	  <ListItemButton component="a" href="/users">
-		<ListItemIcon>
-		  <PeopleIcon />
-		</ListItemIcon>
-		<ListItemText primary="Users" />
-	  </ListItemButton>
-
-	  <ListItemButton component="a" href="/roles">
-		<ListItemIcon>
-		  <ManageAccountsIcon />
-		</ListItemIcon>
-		<ListItemText primary="Roles" />
-	  </ListItemButton>
-
-	  <ListItemButton component="a" href="/pages">
-		<ListItemIcon>
-		  <ArticleIcon />
-		</ListItemIcon>
-		<ListItemText primary="Pages" />
-	  </ListItemButton>
-
-	  <ListItemButton>
-		<ListItemIcon>
-		  <PeopleIcon />
-		</ListItemIcon>
-		<ListItemText primary="Customers" />
-	  </ListItemButton>
-	  <ListItemButton>
-		<ListItemIcon>
-		  <BarChartIcon />
-		</ListItemIcon>
-		<ListItemText primary="Reports" />
-	  </ListItemButton>
-	  <ListItemButton>
-		<ListItemIcon>
-		  <LayersIcon />
-		</ListItemIcon>
-		<ListItemText primary="Integrations" />
-	  </ListItemButton>
-	</>
-  );
-  
-  export const secondaryListItems = (
-	<>
-	  <ListSubheader component="div" inset>
-		Saved reports
-	  </ListSubheader>
-	  <ListItemButton>
-		<ListItemIcon>
-		  <AssignmentIcon />
-		</ListItemIcon>
-		<ListItemText primary="Current month" />
-	  </ListItemButton>
-	  <ListItemButton>
-		<ListItemIcon>
-		  <AssignmentIcon />
-		</ListItemIcon>
-		<ListItemText primary="Last quarter" />
-	  </ListItemButton>
-	  <ListItemButton>
-		<ListItemIcon>
-		  <AssignmentIcon />
-		</ListItemIcon>
-		<ListItemText primary="Year-end sale" />
-	  </ListItemButton>
-	</>
-  );
-
-
-  
-  const drawerWidth = 240;
+const drawerWidth = 240;
 
 
 const AppBar = styled(MuiAppBar, {
@@ -165,6 +80,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function Header(props)
 {
 	const [open, setOpen] = useState(false);
+	const { user } = useAuthenticatedContext();
 
 	const toggleDrawer = () => {
 	  setOpen(!open);
@@ -232,9 +148,35 @@ export default function Header(props)
 			<Divider />
   
 			<List component="nav">
-			  {mainListItems}
+
+
+			  {
+
+				true && user && user.roles && user.roles.map((role) => {
+
+					return role && role.pages && role.pages.map((page) => {
+
+						if(page.visible)
+						{
+							return (
+								<Link key={page._id} href={page.route}>
+									<ListItemButton key={page._id}>
+										<ListItemIcon>
+											<GenericIcon iconName={ page.icon ? page.icon : "ManageAccounts" }/>
+										</ListItemIcon>
+										<ListItemText primary={page.name} />
+									</ListItemButton>
+								</Link>
+							);
+						}
+
+
+					});
+
+				})
+			  }
+
 			  <Divider sx={{ my: 1 }} />
-			  {secondaryListItems}
 			</List>
   
 		  </Drawer>

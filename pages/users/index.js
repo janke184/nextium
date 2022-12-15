@@ -28,17 +28,17 @@ function UsersPageContent()
                                     {
                                         field: 'username',
                                         headerName: 'Username',
-                                        minWidth: 200
+                                        flex: 1
                                     }
                                     ,{
                                         field: 'display_name',
                                         headerName: 'Display Name',
-                                        minWidth: 200
+                                        flex: 1
                                     }
                                     ,{
                                         field: 'password',
                                         headerName: 'Password',
-                                        minWidth: 200
+                                        flex: 1
                                     }
                                 ]
                             }

@@ -167,13 +167,13 @@ function AddUserPageContent(props)
                                                         {
                                                             field: 'name',
                                                             headerName: 'Role Name',
-                                                            width: 250
+                                                            flex: 1
                                                         },
                                                         {
                                                             field: 'action',
                                                             headerName: '',
                                                             renderCell: (params) => (
-                                                                <strong>
+                                                                <div>
                                                                     <IconButton 
                                                                         color="error"
                                                                         onClick={() => {
@@ -186,8 +186,10 @@ function AddUserPageContent(props)
                                                                          }>
                                                                         <DeleteIcon/>
                                                                     </IconButton>
-                                                                </strong>
-                                                            )
+                                                                </div>
+                                                            ),
+                                                            align: 'center',
+                                                            flex: 0.2
                                                         }
                                                     ]
                                                     }

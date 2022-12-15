@@ -7,7 +7,7 @@ import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
 import { isAllowedUser } from 'utils/userUtils';
-import { ROUTE_PAGES } from 'utils/routeUtils';
+import { ROUTE_PAGES, ROUTE_PAGES_ADD } from 'utils/routeUtils';
 
 function PagesPageContent()
 {
@@ -29,12 +29,12 @@ function PagesPageContent()
                                     {
                                         field: 'route',
                                         headerName: 'Route',
-                                        minWidth: 220
+                                        flex: 1
                                     },
                                     {
                                         field: 'name',
                                         headerName: 'Name',
-                                        minWidth: 220
+                                        flex: 1
                                     }                                    
                                 ]
                             }
@@ -43,12 +43,12 @@ function PagesPageContent()
                                     deleted_date: { $eq: null }
                                 }
                             }
-                            onRowSelectedRoute="/pages/add"
+                            onRowSelectedRoute={ ROUTE_PAGES_ADD }
                             rowsToShow={10}
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
-                            <Button variant="outlined" href="/pages/add">New Page</Button>
+                            <Button variant="outlined" href={ ROUTE_PAGES_ADD }>New Page</Button>
                         </Grid>
 
 					</Paper>

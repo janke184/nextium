@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { apiCall, EP_GET_TABLE } from 'utils/httpUtils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -46,16 +46,25 @@ export default function CRMTable(props, children){
 
 	}, []);
 
+	const onFilterChange = (e) => {
+		console.log('onFilterChange', e);
+	}
+
 
     return (
 		<>
 			<div style={{ height: (rows_height * rows_to_show + header_height + footer_height) +'px', width: '100%' }}>
-					<DataGrid
-						getRowId={(row) => row._id}
-						rows={rows}
-						columns={columns}
-						onRowClick={onRowClick}
-					/>
+				<DataGrid
+					getRowId={(row) => row._id}
+					rows={rows}
+					columns={columns}
+					onRowClick={onRowClick}
+					filterMode="server"
+  					onFilterModelChange={onFilterChange}
+				/>
+				{/* components={{
+						Toolbar: GridToolbar,
+					}} */}
 			</div>
 		</>
     );
