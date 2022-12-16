@@ -1,5 +1,5 @@
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { apiCall, EP_GET_TABLE } from 'utils/httpUtils';
+import { DataGrid } from '@mui/x-data-grid';
+import { apiCall } from '/utils/httpUtils';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -17,8 +17,8 @@ export default function CRMTable(props, children){
 
 	const onRowSelectedRoute = props.onRowSelectedRoute;
 
-    if(!props.collection){
-		return (<div>Collection not defined</div>);		
+    if(!props.endpoint){
+		return (<div>Endpoint not defined</div>);		
 	}
 
     if(columns.length==0){
@@ -34,8 +34,7 @@ export default function CRMTable(props, children){
 
 	useEffect(() => {
 		
-		apiCall(EP_GET_TABLE,  {
-			collection: props.collection,
+		apiCall(props.endpoint, {
 			columns: columns,
 			filter: props.filter
 		}).then( (res) => {

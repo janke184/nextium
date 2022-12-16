@@ -9,8 +9,6 @@ import { AuthenticatedContextProvider } from "contexts/AuthenticatedContext";
 
 export default function AppLayoutShell({children})
 {
-    console.log('AppLayoutShell')
-
     const mdTheme = createTheme();
     
     return (

@@ -5,8 +5,9 @@ import {Paper, Button} from '@mui/material/';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
 import AccessDenied from "components/AccessDenied";
-import { ROUTE_USERS, ROUTE_USERS_ADD } from "utils/routeUtils";
-import { isAllowedUser } from "utils/userUtils";
+import { ROUTE_USERS, ROUTE_USERS_ADD } from "/utils/routeUtils";
+import { isAllowedUser } from "/utils/userUtils";
+import { EP_QUERY_GET_USERS } from "/utils/httpUtils";
 
 function UsersPageContent()
 {
@@ -22,23 +23,26 @@ function UsersPageContent()
                         <Title>Users</Title>
 
                         <CRMTable 
-                            collection="users"
+                            endpoint={EP_QUERY_GET_USERS}
                             columns={
                                 [
                                     {
                                         field: 'username',
                                         headerName: 'Username',
-                                        flex: 1
+                                        flex: 1,
+                                        minWidth: 200
                                     }
                                     ,{
                                         field: 'display_name',
                                         headerName: 'Display Name',
-                                        flex: 1
+                                        flex: 1,
+                                        minWidth: 200
                                     }
                                     ,{
                                         field: 'password',
                                         headerName: 'Password',
-                                        flex: 1
+                                        flex: 1,
+                                        minWidth: 200
                                     }
                                 ]
                             }

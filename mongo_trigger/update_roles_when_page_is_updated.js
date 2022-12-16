@@ -74,7 +74,15 @@ exports = async function(changeEvent) {
             // New page's lists
 			const pages = role.pages.map(page => {
 				if (page._id.toString() === changeEvent.documentKey._id.toString()) {
-					return fullDocument;
+
+					// Update page keeping some fields from the old page
+					return {
+						...fullDocument,
+						group: page.group,
+						icon: page.icon,
+						visible: page.visible,
+						order: page.order
+					};
 				}
 				return page;
 			});

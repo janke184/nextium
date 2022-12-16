@@ -1,14 +1,15 @@
+import { getDb } from "/connection/connect";
+import { isAllowedUser } from "/utils/userUtils";
 
 
-import { getDb } from "connection/connect";
-import { replyErr, replyOk } from "utils/httpUtils";
-import { isAllowedUser } from "utils/userUtils";
+export const allowedQueryResults = async (collection, req) => {
+	
+	let result = {
+		success : false
+	};
 
-
-export default async function handler(req, res)
-{
-    try {
-        const collection = req.body.collection;
+	try {
+		
         const columns = req.body.columns ? req.body.columns : [];
         const filter = req.body.filter ? req.body.filter : {};
 
@@ -18,13 +19,13 @@ export default async function handler(req, res)
         });
 
         if(!collection){
-            replyErr(res, 'Missing collection');
+			result.message = 'Missing collection';
             return false;
         }
 
-        const result = await isAllowedUser(req);
+        const allowed = await isAllowedUser(req);
 
-        if(result.success){
+        if(allowed.success){
 
             const db = await getDb();
             const db_res = await db
@@ -36,17 +37,21 @@ export default async function handler(req, res)
                     })
                 .toArray();
 
-            replyOk(res, {rows: db_res});
+			result.success = true;
+			result.rows = db_res;
 
         }else{
-            
-            replyErr(res, 'Invalid user');
+
+			result.message = 'Not allowed';
 
         }
 
     } catch (error) {
-        console.log('Unexpected error', error);
-        replyErr(res, 'Unexpected error');
+        console.log('error', error);
+		result.error = error;
+		result.message = 'Unexpected error';
         
     }
+
+	return result;
 }

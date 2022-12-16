@@ -1,7 +1,6 @@
 export const EP_SIGNIN = '/signin';
 
 export const EP_GET_CONNECTED_USER = '/getconnecteduser';
-export const EP_GET_TABLE = '/gettable';
 
 export const EP_ADD_PAGE = '/page/add';
 export const EP_DELETE_PAGE = '/page/delete';
@@ -11,6 +10,10 @@ export const EP_DELETE_ROLE = '/role/delete';
 
 export const EP_ADD_USER = '/user/add';
 export const EP_DELETE_USER = '/user/delete';
+
+export const EP_QUERY_GET_USERS = '/query/getusers';
+export const EP_QUERY_GET_ROLES = '/query/getroles';
+export const EP_QUERY_GET_PAGES = '/query/getpages';
 
 
 export const apiCall = async (endpoint, data = {}) => {

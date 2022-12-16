@@ -166,17 +166,46 @@ function AddRolePageContent(props)
                                                         {
                                                             field: 'route',
                                                             headerName: 'Route',
-                                                            flex: 1
+                                                            flex: 1,
+                                                            minWidth: 200
                                                         },
                                                         {
                                                             field: 'name',
                                                             headerName: 'Page',
-                                                            flex: 1
+                                                            flex: 1,
+                                                            minWidth: 200
+                                                        },
+                                                        {
+                                                            field: 'group',
+                                                            headerName: 'Group',
+                                                            flex: 1,
+                                                            minWidth: 200,
+                                                            editable: true,
+                                                            valueSetter: (params) => {
+                                                                    
+                                                                params.row.group = params.value;
+
+                                                                const newPages = role.pages.map( (page) => {
+                                                                    if(page._id == params.row._id){
+                                                                        return params.row;
+                                                                    }
+                                                                    return page;
+                                                                });
+                                                                setRole({
+                                                                    ...role,
+                                                                    pages: newPages
+                                                                });                                                                
+                                                                
+                                                                return { 
+                                                                    ...params.row
+                                                                };
+                                                            }
                                                         },
                                                         {
                                                             field: 'icon',
                                                             headerName: 'Icon',
                                                             flex: 1,
+                                                            minWidth: 200,
                                                             editable: true,
                                                             valueSetter: (params) => {
 
@@ -203,7 +232,34 @@ function AddRolePageContent(props)
                                                             headerName: 'Order',
                                                             flex: 1,       
                                                             type: 'number',
-                                                            editable: true
+                                                            editable: true,
+                                                            minWidth: 100,
+                                                            valueSetter: (params) => {
+
+                                                                let newValue = params.value;
+                                                                try {
+                                                                    value = parseInt(newValue);
+                                                                } catch (error) {
+                                                                    params.value = 0;
+                                                                }
+
+                                                                params.row.order = newValue;
+
+                                                                const newPages = role.pages.map( (page) => {
+                                                                    if(page._id == params.row._id){
+                                                                        return params.row;
+                                                                    }
+                                                                    return page;
+                                                                });
+                                                                setRole({
+                                                                    ...role,
+                                                                    pages: newPages
+                                                                });                                                                
+                                                                
+                                                                return { 
+                                                                    ...params.row
+                                                                };
+                                                            }
                                                         },
                                                         {
                                                             field: 'visible',
@@ -232,7 +288,8 @@ function AddRolePageContent(props)
                                                                 </Checkbox>
                                                             ),
                                                             align: 'center',
-                                                            flex: 1
+                                                            flex: 1,
+                                                            minWidth: 100
                                                         },
                                                         {
                                                             field: 'action',
@@ -254,6 +311,7 @@ function AddRolePageContent(props)
                                                                 </strong>
                                                             ),
                                                             align: 'center',
+                                                            minWidth: 100,
                                                             flex: 0.2
                                                         }
                                                     ]

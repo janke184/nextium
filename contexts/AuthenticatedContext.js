@@ -6,8 +6,6 @@ export const useAuthenticatedContext = () => useContext(AuthenticatedContext);
 
 export function AuthenticatedContextProvider({children}){
 
-    console.log('AuthenticatedContextProvider');
-
     const [user, setUser] = useState(null); 
 
     return (

@@ -8,6 +8,7 @@ import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
 import { isAllowedUser } from 'utils/userUtils';
 import { ROUTE_PAGES, ROUTE_PAGES_ADD } from 'utils/routeUtils';
+import { EP_QUERY_GET_PAGES } from 'utils/httpUtils';
 
 function PagesPageContent()
 {
@@ -23,18 +24,20 @@ function PagesPageContent()
                         <Title>Pages</Title>
 
                         <CRMTable 
-                            collection="pages"
+                            endpoint={EP_QUERY_GET_PAGES}
                             columns={
                                 [
                                     {
                                         field: 'route',
                                         headerName: 'Route',
-                                        flex: 1
+                                        flex: 1,
+                                        minWidth: 200
                                     },
                                     {
                                         field: 'name',
                                         headerName: 'Name',
-                                        flex: 1
+                                        flex: 1,
+                                        minWidth: 200
                                     }                                    
                                 ]
                             }
@@ -61,8 +64,6 @@ function PagesPageContent()
 
 
 export default function PagesPage(props){
-
-    console.log('PagesPage');
 
     if(props.access_granted){
 

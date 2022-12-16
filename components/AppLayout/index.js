@@ -3,8 +3,6 @@ import { globalStyles } from "styles/globals";
 
 export default function AppLayout({children})
 {
-    console.log('AppLayout')
-
     return (
     <>
         <Head>

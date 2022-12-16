@@ -21,8 +21,6 @@ export default async function handler(req, res)
             page._id = ObjectId(page._id);
             return page;
         });
-
-        console.log('req', req);
         
         const result = await isAllowedUser(req);
 

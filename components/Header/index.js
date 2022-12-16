@@ -154,6 +154,13 @@ export default function Header(props)
 
 				true && user && user.roles && user.roles.map((role) => {
 
+					
+					// filter out pages that are not visible
+					role.pages = role.pages.filter((page) => page.visible);
+					
+					// sort pages by order
+					role.pages.sort((a, b) => (a.order > b.order) ? 1 : -1);
+
 					return role && role.pages && role.pages.map((page) => {
 
 						if(page.visible)

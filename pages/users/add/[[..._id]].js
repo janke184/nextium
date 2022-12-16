@@ -1,4 +1,3 @@
-import { apiCall, EP_DELETE_USER, EP_ADD_USER } from "utils/httpUtils";
 import AppLayoutShell from "components/AppLayoutShell";
 import AuthenticatedPage from "components/AuthenticatedPage";
 import AccessDenied from "components/AccessDenied";
@@ -20,10 +19,10 @@ import {Card
 } from '@mui/material';
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { getDb } from "connection/connect";
+import { getDb } from "/connection/connect";
 import { ObjectID } from "bson";
-import { isAllowedUser } from "utils/userUtils";
-import { ROUTE_USERS, ROUTE_USERS_ADD } from "utils/routeUtils";
+import { ROUTE_USERS, ROUTE_USERS_ADD } from "/utils/routeUtils";
+import { apiCall, EP_DELETE_USER, EP_ADD_USER,isAllowedUser } from "/utils/httpUtils";
 
 const filter = createFilterOptions();
 

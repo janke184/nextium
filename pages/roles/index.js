@@ -7,6 +7,8 @@ import Title from "/components/Title";
 import AccessDenied from "/components/AccessDenied";
 import { isAllowedUser } from "/utils/userUtils";
 import { ROUTE_ROLES } from "/utils/routeUtils";
+import { EP_QUERY_GET_ROLES } from "utils/httpUtils";
+import { ROUTE_ROLES_ADD } from "utils/routeUtils";
 
 function RolesPageContent()
 {
@@ -22,7 +24,7 @@ function RolesPageContent()
                         <Title>Roles</Title>
 
                         <CRMTable 
-                            collection="roles"
+                            endpoint={EP_QUERY_GET_ROLES}
                             columns={
                                 [
                                     {
@@ -37,11 +39,11 @@ function RolesPageContent()
                                     deleted_date: { $eq: null }
                                 }
                             }
-                            onRowSelectedRoute="/roles/add"
+                            onRowSelectedRoute={ROUTE_ROLES_ADD}
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
-                            <Button variant="outlined" href="/roles/add">New Role</Button>
+                            <Button variant="outlined" href={ROUTE_ROLES_ADD}>New Role</Button>
                         </Grid>
 
 					</Paper>
@@ -54,8 +56,6 @@ function RolesPageContent()
 
 
 export default function RolesPage(props){
-
-    console.log('RolesPage');
 
     if(props.access_granted){
 
