@@ -22,8 +22,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getDb } from "connection/connect";
 import { ObjectID } from "bson";
-import { isAllowedUser } from "utils/userUtils";
 import { ROUTE_PAGES, ROUTE_PAGES_ADD } from "utils/routeUtils";
+import { isAllowedUser } from "/utils/userUtils";
 
 const filter = createFilterOptions();
 

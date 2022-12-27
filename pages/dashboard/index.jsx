@@ -9,6 +9,8 @@ import AppLayoutShell from 'components/AppLayoutShell';
 import { isAllowedUser } from 'utils/userUtils';
 import { ROUTE_DASHBOARD } from 'utils/routeUtils';
 import AccessDenied from 'components/AccessDenied';
+import { Button } from '@mui/material';
+import { apiCall } from 'utils/httpUtils';
 
 
 function DashboardContent() {
@@ -55,6 +57,12 @@ function DashboardContent() {
 				</Grid>
 
 			</Grid>
+
+			<Button onClick={() => {
+				apiCall("/agitest", (res) => {
+					console.log(res);
+				})
+			}}>Test</Button>
 
 		</AppLayoutShell>
 

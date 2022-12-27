@@ -11,9 +11,17 @@ export const EP_DELETE_ROLE = '/role/delete';
 export const EP_ADD_USER = '/user/add';
 export const EP_DELETE_USER = '/user/delete';
 
+export const EP_ADD_EVENT_HANDLER = '/eventhandler/add';
+export const EP_DELETE_EVENT_HANDLER = '/eventhandler/delete';
+
 export const EP_QUERY_GET_USERS = '/query/getusers';
 export const EP_QUERY_GET_ROLES = '/query/getroles';
 export const EP_QUERY_GET_PAGES = '/query/getpages';
+
+export const EP_QUERY_GET_EVENTS = '/query/getevents';
+
+export const EP_QUERY_GET_EVENT_HANDLERS = '/query/geteventhandlers';
+
 
 
 export const apiCall = async (endpoint, data = {}) => {

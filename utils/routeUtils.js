@@ -5,3 +5,6 @@ export const ROUTE_ROLES = '/roles';
 export const ROUTE_ROLES_ADD = '/roles/add';
 export const ROUTE_PAGES = '/pages';
 export const ROUTE_PAGES_ADD = '/pages/add';
+export const ROUTE_EVENTS = '/events';
+export const ROUTE_EVENT_HANDLERS = '/eventhandlers';
+export const ROUTE_EVENT_HANDLERS_ADD = '/eventhandlers/add';

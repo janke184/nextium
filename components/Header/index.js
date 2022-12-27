@@ -123,6 +123,7 @@ export default function Header(props)
 					<Badge badgeContent={4} color="secondary">
 						<NotificationsIcon />
 					</Badge>
+
 				  </IconButton>
   
 				</Toolbar>
@@ -171,7 +172,10 @@ export default function Header(props)
 										<ListItemIcon>
 											<GenericIcon iconName={ page.icon ? page.icon : "ManageAccounts" }/>
 										</ListItemIcon>
-										<ListItemText primary={page.name} />
+										<ListItemText 
+											primary={page.name} 
+											secondary={page.group} 
+										/>
 									</ListItemButton>
 								</Link>
 							);
@@ -188,5 +192,6 @@ export default function Header(props)
   
 		  </Drawer>
 	</>
+
 	);
 }
