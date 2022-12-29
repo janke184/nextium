@@ -9,6 +9,7 @@ import { isAllowedUser } from "/utils/userUtils";
 import { ROUTE_ROLES } from "/utils/routeUtils";
 import { EP_QUERY_GET_ROLES } from "utils/httpUtils";
 import { ROUTE_ROLES_ADD } from "utils/routeUtils";
+import Link from "next/link";
 
 function RolesPageContent()
 {
@@ -43,7 +44,9 @@ function RolesPageContent()
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
-                            <Button variant="outlined" href={ROUTE_ROLES_ADD}>New Role</Button>
+                            <Link href={ROUTE_ROLES_ADD}>
+                                <Button variant="outlined">New Role</Button>
+                            </Link>
                         </Grid>
 
 					</Paper>

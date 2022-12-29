@@ -9,6 +9,7 @@ import AccessDenied from "components/AccessDenied";
 import { isAllowedUser } from 'utils/userUtils';
 import { ROUTE_PAGES, ROUTE_PAGES_ADD } from 'utils/routeUtils';
 import { EP_QUERY_GET_PAGES } from 'utils/httpUtils';
+import Link from 'next/link';
 
 function PagesPageContent()
 {
@@ -51,7 +52,9 @@ function PagesPageContent()
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
-                            <Button variant="outlined" href={ ROUTE_PAGES_ADD }>New Page</Button>
+                            <Link href={ ROUTE_PAGES_ADD }>
+                                <Button variant="outlined">New Page</Button>
+                            </Link>
                         </Grid>
 
 					</Paper>

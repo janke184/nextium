@@ -79,7 +79,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 export default function Header(props)
 {
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 	const { user } = useAuthenticatedContext();
 
 	const toggleDrawer = () => {
@@ -149,8 +149,6 @@ export default function Header(props)
 			<Divider />
   
 			<List component="nav">
-
-
 			  {
 
 				true && user && user.roles && user.roles.map((role) => {

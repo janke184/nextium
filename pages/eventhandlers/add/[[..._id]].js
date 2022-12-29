@@ -12,7 +12,6 @@ import {Card
     , Box 
     , Grid 
     , Button
-    , createFilterOptions
 } from '@mui/material';
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -21,8 +20,6 @@ import { ObjectID } from "bson";
 import { isAllowedUser } from "/utils/userUtils";
 import { EP_ADD_EVENT_HANDLER, EP_DELETE_EVENT_HANDLER, apiCall } from "/utils/httpUtils";
 import { ROUTE_EVENT_HANDLERS, ROUTE_EVENT_HANDLERS_ADD } from "/utils/routeUtils";
-
-const filter = createFilterOptions();
 
 function AddEventHandlerPageContent(props)
 {

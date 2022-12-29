@@ -14,6 +14,7 @@ export default function CRMTable(props, children){
 	const rows_to_show = props.rowsToShow ? props.rowsToShow : 10;
 	const header_height = props.headerHeight ? props.headerHeight : 50;
 	const footer_height = props.footerHeight ? props.footerHeight : 50;
+	const initialState = props.initialState ? props.initialState : {};
 
 	const onRowSelectedRoute = props.onRowSelectedRoute;
 
@@ -60,6 +61,7 @@ export default function CRMTable(props, children){
 					onRowClick={onRowClick}
 					filterMode="server"
   					onFilterModelChange={onFilterChange}
+					initialState={initialState}
 				/>
 				{/* components={{
 						Toolbar: GridToolbar,

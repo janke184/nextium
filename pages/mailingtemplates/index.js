@@ -5,11 +5,12 @@ import {Paper, Button} from '@mui/material/';
 import CRMTable from "components/CRMTable";
 import Title from "components/Title";
 import AccessDenied from "components/AccessDenied";
-import { ROUTE_EVENTS } from "/utils/routeUtils";
+import { ROUTE_MAILING_TEMPLATES, ROUTE_MAILING_TEMPLATES_ADD } from "/utils/routeUtils";
 import { isAllowedUser } from "/utils/userUtils";
-import { EP_QUERY_GET_EVENTS } from "/utils/httpUtils";
+import { EP_QUERY_GET_MAILING_TEMPLATES } from "/utils/httpUtils";
+import Link from "next/link";
 
-function EventsPageContent()
+function MailingTemplatesPageContent()
 {
 
     return (
@@ -20,10 +21,10 @@ function EventsPageContent()
 
 					<Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
 					    
-                        <Title>Events</Title>
+                        <Title>Mailing Templates</Title>
 
                         <CRMTable 
-                            endpoint={EP_QUERY_GET_EVENTS}
+                            endpoint={EP_QUERY_GET_MAILING_TEMPLATES}
                             columns={
                                 [
                                     {
@@ -33,19 +34,16 @@ function EventsPageContent()
                                         minWidth: 200
                                     }
                                     ,{
-                                        field: 'data',
-                                        headerName: 'Data',
+                                        field: 'from_name',
+                                        headerName: 'From Name',
                                         flex: 1,
-                                        minWidth: 200,
-                                        renderCell: (params) => {
-                                            return JSON.stringify(params.value);
-                                        }
-                                    },
-                                    {
-                                        field: 'processed_date',
-                                        headerName: 'Processed Date',
+                                        minWidth: 200
+                                    }
+                                    ,{
+                                        field: 'subject',
+                                        headerName: 'Subject',
                                         flex: 1,
-                                        minWidth: 200                                   
+                                        minWidth: 200
                                     }
                                 ]
                             }
@@ -54,14 +52,14 @@ function EventsPageContent()
                                     deleted_date: { $eq: null }
                                 }
                             }
-                            initialState={
-                                {
-                                    sorting: {
-                                        sortModel: [{ field: 'processed_date', sort: 'desc' }]
-                                    }
-                                }
-                            }
+                            onRowSelectedRoute={ ROUTE_MAILING_TEMPLATES_ADD }
                         />
+
+                        <Grid item justifyContent="flex-start" sx={{mt: 5}}>
+                            <Link href={ROUTE_MAILING_TEMPLATES_ADD}>
+                                <Button variant="outlined">New Mailing Template</Button>
+                            </Link>
+                        </Grid>
 
 					</Paper>
 
@@ -73,12 +71,12 @@ function EventsPageContent()
 }
 
 
-export default function EventsPage(props){
+export default function MailingTemplatesPage(props){
 
     if(props.access_granted){
 
         return (
-            <EventsPageContent/>
+            <MailingTemplatesPageContent/>
         )
 
     }else{
@@ -94,7 +92,7 @@ export default function EventsPage(props){
 
 export const getServerSideProps = async ({ req, res }) => 
 {
-    const allowed = await isAllowedUser(req, ROUTE_EVENTS);
+    const allowed = await isAllowedUser(req, ROUTE_MAILING_TEMPLATES);
 
     return {
       props: {

@@ -8,6 +8,7 @@ import AccessDenied from "components/AccessDenied";
 import { ROUTE_USERS, ROUTE_USERS_ADD } from "/utils/routeUtils";
 import { isAllowedUser } from "/utils/userUtils";
 import { EP_QUERY_GET_USERS } from "/utils/httpUtils";
+import Link from "next/link";
 
 function UsersPageContent()
 {
@@ -55,7 +56,9 @@ function UsersPageContent()
                         />
 
                         <Grid item justifyContent="flex-start" sx={{mt: 5}}>
-                            <Button variant="outlined" href={ROUTE_USERS_ADD}>New User</Button>
+                            <Link href={ROUTE_USERS_ADD}>
+                                <Button variant="outlined">New User</Button>
+                            </Link>
                         </Grid>
 
 					</Paper>

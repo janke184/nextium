@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { errorAlert, okAlert } from "/utils/notifications";
 import { useRouter } from "next/router"
 import { apiCall } from "/utils/httpUtils";
-import jsCookie from "js-cookie";
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -12,12 +11,12 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { EP_SIGNIN } from "utils/httpUtils";
-import { ROUTE_DASHBOARD, ROUTE_RESET_PASSWORD } from "/utils/routeUtils";
+import { EP_RESET_PASSWORD } from "/utils/httpUtils";
+import { ROUTE_SIGNIN } from "/utils/routeUtils";
+import { LockReset } from "@mui/icons-material";
 
 
 const theme = createTheme();
@@ -30,17 +29,14 @@ export default function PageSignIn(props)
 
     const handleSubmit = (event) => {
 
-        apiCall(EP_SIGNIN, {
-            username: user.username,
-            password: user.password
+        apiCall(EP_RESET_PASSWORD, {
+            username: user.username
         })
         .then( (response) => {
             
-            if(response.success && response.data.userTokenId){
+            if(response.success){
 
-                jsCookie.set('userTokenId', response.data.userTokenId);
-
-                router.replace(ROUTE_DASHBOARD);
+                okAlert('An email has been sent to your email address. Please check your email and follow the instructions to reset your password.');
 
             }else{
                 errorAlert('Invalid user or password (3)');
@@ -82,11 +78,11 @@ export default function PageSignIn(props)
                             }}
                             >
                             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                                <LockOutlinedIcon />
+                                <LockReset />
                             </Avatar>
 
                             <Typography component="h1" variant="h5">
-                                Sign in
+                                Reset password
                             </Typography>
 
                             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -101,36 +97,20 @@ export default function PageSignIn(props)
                                     autoFocus
                                     onChange={handleChange}
                                 />
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    onChange={handleChange}
-                                    autoComplete="current-password"
-                                />
                                 <Button
                                     type="submit"
                                     fullWidth
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                Sign In
+                                Reset password
                                 </Button>
                                 
                                 <Grid container>
 
                                     <Grid item xs>
-                                        <Link href={ROUTE_RESET_PASSWORD} variant="body2">
-                                        Forgot password?
-                                        </Link>
-                                    </Grid>
-
-                                    <Grid item>
-                                        <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
+                                        <Link href={ROUTE_SIGNIN} variant="body2">
+                                        Sign in
                                         </Link>
                                     </Grid>
 
