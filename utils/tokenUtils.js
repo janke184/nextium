@@ -1,19 +1,26 @@
 const jwt = require('jsonwebtoken');
 
-export const createJWTUserToken = (user_id) => {
+export const createJWT = (data, expiresIn = 60 * 30) => {
+
+	if(!process.env.JWT_SECRET){
+		throw new Error('JWT_SECRET is not set');
+	}
+
 	return jwt.sign(
-		{ 
-			_id: user_id
-		}
+		 data
 		, process.env.JWT_SECRET, 
 		{
-			expiresIn: 60 * 60 * 24 * 30 // 30 days
+			expiresIn: expiresIn
 		}
 	);
 }
 
-export const decodeJWTUserToken = (token) => {
+export const decodeJWT = (token) => {
     let decoded = null;
+
+	if(!process.env.JWT_SECRET){
+		throw new Error('JWT_SECRET is not set');
+	}
 
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET);    
@@ -22,4 +29,10 @@ export const decodeJWTUserToken = (token) => {
     }
 
     return decoded;
+}
+
+export const createJWTUserToken = (user_id) => {
+
+	return createJWT({_id: user_id}, 60 * 60 * 24 * 30);
+
 }

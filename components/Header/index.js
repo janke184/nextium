@@ -116,7 +116,7 @@ export default function Header(props)
 					  noWrap
 					  sx={{ flexGrow: 1 }}
 					  >
-					  Next CRM
+					  Nextium
 				  </Typography>
   
 				  <IconButton color="inherit">

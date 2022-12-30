@@ -1,5 +1,5 @@
 import { getDb } from "/connection/connect";
-import { decodeJWTUserToken } from "/utils/tokenUtils";
+import { decodeJWT } from "/utils/tokenUtils";
 
 export const getConnectedUser = async (req) => {
 
@@ -20,7 +20,7 @@ export const getConnectedUser = async (req) => {
 
         if(tokenDb){
                 
-            const token = decodeJWTUserToken(tokenDb.userTokenId);
+            const token = decodeJWT(tokenDb.userTokenId);
     
             if(token){
 
@@ -177,3 +177,27 @@ const isAllowedToAccessEndpoint = (url, user_resp) => {
     }
 
 }
+
+export const checkPasswordSecurity = (password) => {
+    
+    let result = {
+        success: false
+    };
+
+    if(password){
+
+        if(password.length >= 8){
+            result.success = true;
+
+        }else{
+            result.message = "Password must be at least 8 characters long";
+        }
+
+    }else{
+        result.message = "Missing password";
+    }
+
+    return result;
+
+}
+
