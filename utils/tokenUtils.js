@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+
 export const createJWT = (data, expiresIn = 60 * 30) => {
 
 	if(!process.env.JWT_SECRET){
