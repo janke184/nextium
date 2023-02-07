@@ -36,3 +36,4 @@ yarn-error.log*
 
 # owen ignore files
 trash/
+pages/api/agitest.js
