@@ -1,3 +1,37 @@
+## About Nextium
+
+### Sing In
+
+![Sign In](https://github.com/janke184/nextium/blob/e749d8bab67586ed3405e9b6711d99b600c591ad/public/img/screenshots/01%20-%20Signin.jpg?raw=true)
+
+
+### Password Recovery
+
+![Password Recovery](https://github.com/janke184/nextium/blob/main/public/img/screenshots/02%20-%20password%20recovery.jpg?raw=true)
+
+
+### Roles Management
+![Roles Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03%20-%20Roles%20Management.jpg?raw=true)
+
+
+### User Management
+![User Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03%20-%20User%20Management.jpg?raw=true)
+
+
+### Pages Management
+![Pages Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/04%20-%20Pages%20Management.jpg?raw=true)
+
+
+### Mailing Templates
+![Mailing Templates](https://github.com/janke184/nextium/blob/main/public/img/screenshots/05%20-%20Mailgin%20Templates.jpg?raw=true)
+
+
+### Roles Management
+![]()
+
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
@@ -32,5 +66,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-## About Nextium
