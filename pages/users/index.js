@@ -32,6 +32,12 @@ function UsersPageContent()
                                         headerName: 'Username',
                                         flex: 1,
                                         minWidth: 200
+                                    },
+                                    {
+                                        field: 'email',
+                                        headerName: 'Email',
+                                        flex: 1,
+                                        minWidth: 200
                                     }
                                     ,{
                                         field: 'display_name',
@@ -42,6 +48,18 @@ function UsersPageContent()
                                     ,{
                                         field: 'password',
                                         headerName: 'Password',
+                                        flex: 1,
+                                        minWidth: 200
+                                    }
+                                    ,{
+                                        field: 'created_date',
+                                        headerName: 'Created Date',
+                                        flex: 1,
+                                        minWidth: 200
+                                    }
+                                    ,{
+                                        field: 'updated_date',
+                                        headerName: 'Updated Date',
                                         flex: 1,
                                         minWidth: 200
                                     }

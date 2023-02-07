@@ -49,7 +49,7 @@ export default function PageSignIn(props)
 
         })
         .catch( (err) => {
-            errorAlert('Invalid user or password', err.message);
+            errorAlert('', 'Invalid user or password', err.message);
 
         })
 
@@ -120,17 +120,11 @@ export default function PageSignIn(props)
                                 Sign In
                                 </Button>
                                 
-                                <Grid container>
-
-                                    <Grid item xs>
-                                        <Link href={ROUTE_RESET_PASSWORD} variant="body2">
-                                        Forgot password?
-                                        </Link>
-                                    </Grid>
+                                <Grid container justifyContent="center">
 
                                     <Grid item>
-                                        <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
+                                        <Link href={ROUTE_RESET_PASSWORD} variant="body2">
+                                        Forgot password?
                                         </Link>
                                     </Grid>
 

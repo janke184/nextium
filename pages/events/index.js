@@ -40,12 +40,48 @@ function EventsPageContent()
                                         renderCell: (params) => {
                                             return JSON.stringify(params.value);
                                         }
-                                    },
-                                    {
+                                    }
+                                    ,{
+                                        field: 'created_date',
+                                        headerName: 'Created Date',
+                                        flex: 1,
+                                        minWidth: 200
+                                    }
+                                    ,{
                                         field: 'processed_date',
                                         headerName: 'Processed Date',
                                         flex: 1,
                                         minWidth: 200                                   
+                                    }
+                                    // add a column that shows difference between created_date and processed_date in seconds
+                                    ,{
+                                        field: 'sss',
+                                        headerName: 'Time to Process (s)',
+                                        flex: 1,
+                                        minWidth: 200,
+                                        renderCell: (params) => {
+                                            const created_date = params.row.created_date;
+                                            const processed_date = params.row.processed_date;
+                                            if(created_date && processed_date){
+                                                // get difference in seconds (format of dates is: 2023-01-23T15:09:46.658Z)
+
+                                                // convert to date objects
+                                                const created_date_obj = new Date(created_date);
+                                                const processed_date_obj = new Date(processed_date);
+
+                                                // get difference in milliseconds
+                                                const diff = processed_date_obj - created_date_obj;
+
+                                                // convert to seconds
+                                                const diff_seconds = diff / 1000;   
+
+                                                //round to int
+                                                return Math.round(diff_seconds);
+
+                                            }else{
+                                                return '';
+                                            }
+                                        }
                                     }
                                 ]
                             }
@@ -57,7 +93,7 @@ function EventsPageContent()
                             initialState={
                                 {
                                     sorting: {
-                                        sortModel: [{ field: 'processed_date', sort: 'desc' }]
+                                        sortModel: [{ field: 'created_date', sort: 'desc' }]
                                     }
                                 }
                             }

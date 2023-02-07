@@ -31,8 +31,12 @@ export default async function handler(req, res)
 					{ 
 						$set: { 
 							user_id: new ObjectId(user._id),
-							userTokenId: userTokenId 
-						} 
+							userTokenId: userTokenId,
+							updated_date: new Date()
+						},
+						$setOnInsert: {
+							created_date: new Date()
+						}
 					},
 					{ upsert: true }
 				);

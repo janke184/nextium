@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { errorAlert, okAlert } from "/utils/notifications";
 import { apiCall } from "/utils/httpUtils";
 
@@ -15,12 +15,20 @@ import { EP_RESET_PASSWORD } from "/utils/httpUtils";
 import { ROUTE_SIGNIN } from "/utils/routeUtils";
 import { Key } from "@mui/icons-material";
 import { useRouter } from 'next/router';
+import { checkPasswordSecurity } from 'utils/validationUtils';
 
 
 export default function ResetPasswordEnd(props)
 {
     const [user, setUser] = useState(props.user)
     const router = useRouter();
+    
+    const [formValidations, setFormValidations] = useState({
+        password: {
+            valid: false,
+            message: ''
+        }
+    })
 
     const handleSubmit = (event) => {
 
@@ -29,8 +37,8 @@ export default function ResetPasswordEnd(props)
             
             if(response.success){
 
-                okAlert(response.data, '', () => {
-                    window.location = ROUTE_SIGNIN;
+                okAlert('', response.data, () => {
+                    router.push(ROUTE_SIGNIN);
                 });
 
             }else{
@@ -40,7 +48,7 @@ export default function ResetPasswordEnd(props)
                     window.location = response.data.redirect_url;
 
                 }else{
-                    errorAlert(response.data);
+                    errorAlert('', response.data);
 
                 }
 
@@ -48,7 +56,7 @@ export default function ResetPasswordEnd(props)
 
         })
         .catch( (err) => {
-            errorAlert('Invalid user or password', err.message);
+            errorAlert('', response.data);
 
         })
 
@@ -58,7 +66,18 @@ export default function ResetPasswordEnd(props)
 
     const handleChange = (event) =>
     {
-
+        if(event.target.name === 'password'){
+            const passwordCheck = checkPasswordSecurity(event.target.value);
+            console.log('passwordCheck', passwordCheck);
+            setFormValidations({
+                ...formValidations,
+                password: {
+                    valid: passwordCheck.success,
+                    message: passwordCheck.message
+                }
+            })
+        }
+        
         setUser({
             ...user,
             [event.target.name]: event.target.value
@@ -102,12 +121,14 @@ export default function ResetPasswordEnd(props)
                         <TextField
                             margin="normal"
                             type="password"
-                            required={ user.token ? true : false}
+                            required={ true }
                             fullWidth
                             label="New password"
                             id="password"
                             name="password"
                             onChange={handleChange}
+                            error={ !formValidations.password.valid }
+                            helperText={ formValidations.password.message }
                         />
 
                         <TextField
@@ -123,11 +144,13 @@ export default function ResetPasswordEnd(props)
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            disabled={ !formValidations.password.valid }
+                            endIcon={ <Key /> }
                         >
                         Reset password
                         </Button>
                         
-                        <Grid container>
+                        <Grid container justifyContent="center">
 
                             <Grid item xs>
                                 <Link href={ROUTE_SIGNIN} variant="body2">

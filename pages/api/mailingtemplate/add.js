@@ -54,7 +54,8 @@ export default async function handler(req, res)
                                 subject: template.subject,
                                 body: template.body,
                                 smtp: template.smtp,
-                                event_handler: template.event_handler
+                                event_handler: template.event_handler,
+                                updated_date: new Date()
                             }                            
                             
                         }
@@ -73,7 +74,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("mailing_templates")
-                    .insertOne(template);
+                    .insertOne({
+                        ...template,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'Template added');
 

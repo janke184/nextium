@@ -6,7 +6,8 @@ export const newEvent = async (eventName, data) => {
 
     await db.collection("events").insertOne({
         name: eventName,
-        data: data
+        data: data,
+        created_date: new Date()
     });
 
 }

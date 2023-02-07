@@ -49,7 +49,8 @@ export default async function handler(req, res)
                                 host: smtp.host,
                                 port: smtp.port,
                                 username: smtp.username,
-                                password: smtp.password
+                                password: smtp.password,
+                                updated_date: new Date()
                             }
                         }
                     );
@@ -67,7 +68,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("smtps")
-                    .insertOne(smtp);
+                    .insertOne({
+                        ...smtp,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'SMTP added');
 

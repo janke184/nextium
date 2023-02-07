@@ -36,7 +36,8 @@ export default async function handler(req, res)
                             $set: {
                                 name: page.name,
                                 route: page.route,
-                                endpoints: page.endpoints
+                                endpoints: page.endpoints,
+                                updated_date: new Date()
                             }
                         }
                     );
@@ -53,7 +54,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("pages")
-                    .insertOne(page);
+                    .insertOne({
+                        ...page,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'Page added');
 

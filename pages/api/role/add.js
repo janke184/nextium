@@ -41,7 +41,8 @@ export default async function handler(req, res)
                         {
                             $set: {
                                 name: role.name,
-                                pages: role.pages
+                                pages: role.pages,
+                                updated_date: new Date()
                             }
                         }
                     );
@@ -59,7 +60,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("roles")
-                    .insertOne(role);
+                    .insertOne({
+                        ...role,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'Role added');
 

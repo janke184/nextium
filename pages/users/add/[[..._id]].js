@@ -24,6 +24,7 @@ import { ObjectID } from "bson";
 import { ROUTE_USERS, ROUTE_USERS_ADD } from "/utils/routeUtils";
 import { isAllowedUser } from "/utils/userUtils";
 import { apiCall, EP_DELETE_USER, EP_ADD_USER } from "/utils/httpUtils";
+import { checkPasswordSecurity, checkUsernameSecurity } from "utils/validationUtils";
 
 const filter = createFilterOptions();
 
@@ -32,6 +33,18 @@ function AddUserPageContent(props)
     const router = useRouter();
 
     const [user, setUser] = useState(props.user);
+
+    const [formValidations, setFormValidations] = useState(
+        {
+            username: {
+                valid: true,
+                message: ''
+            }
+            , password: {
+                valid: true,
+                message: ''
+            }
+        });
 
     const [loading, setLoading] = useState(false);
 
@@ -47,7 +60,7 @@ function AddUserPageContent(props)
                 router.replace(ROUTE_USERS);
 
             }else{
-                errorAlert('Unable to add user');
+                errorAlert('', response.data);
             }
         });
     }
@@ -62,7 +75,7 @@ function AddUserPageContent(props)
                 router.replace(ROUTE_USERS);
 
             }else{
-                errorAlert('Unable to delete user');
+                errorAlert('', response.data);
             }
         });
     }
@@ -80,7 +93,6 @@ function AddUserPageContent(props)
             return;
         }
 
-
         setUser({
             ...user,
             roles: [
@@ -96,6 +108,37 @@ function AddUserPageContent(props)
     }
 
     const onChangeHandler = (event) => {
+
+        // if username is changed, check if it is valid
+        if(event.target.name == 'username'){
+
+            const usernameCheck = checkUsernameSecurity(event.target.value);
+            setFormValidations({
+                ...formValidations,
+                username: {
+                    valid: usernameCheck.success ? true : false,
+                    message: usernameCheck.message ? usernameCheck.message : ''
+                }
+            });
+        }
+
+        // if password is changed, check if it is valid
+        if(event.target.name == 'password'){
+            const passwordCheck = checkPasswordSecurity(event.target.value);
+            setFormValidations({
+                ...formValidations,
+                password: {
+                    valid: passwordCheck.success ? true : false,
+                    message: passwordCheck.message ? passwordCheck.message : ''
+                }
+            });
+        }
+
+
+
+
+
+        
 
         // create a new object with target name as key and target value as value
         setUser({ ...user, [event.target.name]: event.target.value });
@@ -127,7 +170,17 @@ function AddUserPageContent(props)
                                     <div className="my-form">
 
                                         <Grid item>
-                                            <TextField type="email" InputLabelProps={{ shrink: user.username ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="username" label="Username" variant="outlined" value={user.username} />
+                                            <TextField 
+                                                InputLabelProps={{ shrink: user.username ? true : false }} 
+                                                required sx={{width: '100%'}} 
+                                                onChange={onChangeHandler} 
+                                                name="username" 
+                                                label="Username" 
+                                                variant="outlined" 
+                                                value={user.username} 
+                                                error={!formValidations.username.success}
+                                                helperText={formValidations.username.message}
+                                            />
                                         </Grid>
 
                                         <Grid item>
@@ -135,7 +188,29 @@ function AddUserPageContent(props)
                                         </Grid>
 
                                         <Grid item>
-                                            <TextField InputLabelProps={{ shrink: user.username ? true : false }} required sx={{width: '100%'}} onChange={onChangeHandler} name="password" label="Password" variant="outlined" value={user.password} />
+                                            <TextField type="email" 
+                                                InputLabelProps={{ shrink: user.username ? true : false }} 
+                                                required sx={{width: '100%'}} 
+                                                onChange={onChangeHandler} 
+                                                name="email" 
+                                                label="Email" 
+                                                variant="outlined" 
+                                                value={user.email} 
+                                            />
+                                        </Grid>
+
+                                        <Grid item>
+                                            <TextField 
+                                                InputLabelProps={{ shrink: user.username ? true : false }} 
+                                                required sx={{width: '100%'}} 
+                                                onChange={onChangeHandler} 
+                                                name="password" 
+                                                label="Password" 
+                                                variant="outlined" 
+                                                value={user.password} 
+                                                error={!formValidations.password.success}
+                                                helperText={formValidations.password.message}
+                                            />
                                         </Grid>
 
                                         <Grid item>

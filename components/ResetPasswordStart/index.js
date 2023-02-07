@@ -12,14 +12,22 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { EP_RESET_PASSWORD } from "/utils/httpUtils";
 import { ROUTE_SIGNIN } from "/utils/routeUtils";
-import { LockReset } from "@mui/icons-material";
+import { Email, LockReset } from "@mui/icons-material";
 import { useState } from "react";
+import { checkUsernameSecurity } from "/utils/validationUtils";
 
 
 
 export default function ResetPasswordStart(props)
 {
     const [user, setUser] = useState(props.user)
+    const [formValidations, setFormaValidations] = useState({
+        username: {
+            valid: false,
+            message: ''
+        }
+
+    })
 
     const handleSubmit = (event) => {
 
@@ -31,13 +39,13 @@ export default function ResetPasswordStart(props)
                 okAlert('', 'An email has been sent to your email address. Please check your email and follow the instructions to reset your password.');
 
             }else{
-                errorAlert(response.data);
+                errorAlert('', response.data);
 
             }
 
         })
         .catch( (err) => {
-            errorAlert('Invalid user or password', err.message);
+            errorAlert('', response.data);
 
         })
 
@@ -47,6 +55,16 @@ export default function ResetPasswordStart(props)
 
     const handleChange = (event) =>
     {
+        if(event.target.name === 'username'){
+            const usernameCheck = checkUsernameSecurity(event.target.value);
+            setFormaValidations({
+                ...formValidations,
+                username: {
+                    valid: usernameCheck.success,
+                    message: usernameCheck.message
+                }
+            })
+        }
 
         setUser({
             ...user,
@@ -78,12 +96,13 @@ export default function ResetPasswordStart(props)
 
                         <TextField
                             margin="normal"
-                            type="email"
                             required
                             fullWidth
                             label="Username"
                             name="username"
                             onChange={handleChange}
+                            error={!formValidations.username.valid}
+                            helperText={formValidations.username.message}
                         />
 
                         <Button
@@ -91,13 +110,15 @@ export default function ResetPasswordStart(props)
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
+                            endIcon={<Email />}
+                            disabled={!formValidations.username.valid}
                         >
-                        Reset password
+                        Send email
                         </Button>
                         
-                        <Grid container>
+                        <Grid container justifyContent="center">
 
-                            <Grid item xs>
+                            <Grid >
                                 <Link href={ROUTE_SIGNIN} variant="body2">
                                 Sign in
                                 </Link>

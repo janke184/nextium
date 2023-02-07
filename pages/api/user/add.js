@@ -1,6 +1,7 @@
 
 
 import { ObjectId } from "mongodb";
+import { checkPasswordSecurity, checkUsernameSecurity } from "utils/validationUtils";
 import { getDb } from "/connection/connect";
 import { replyErr, replyOk } from "/utils/httpUtils";
 import { isAllowedUser } from "/utils/userUtils";
@@ -13,6 +14,20 @@ export default async function handler(req, res)
 
         if(!user || !user.username || !user.password){
             replyErr(res, 'Missing page');
+            return false;
+        }
+
+        // check if username is valid
+        const userChecking = checkUsernameSecurity(user.username);
+        if(!userChecking.success){
+            replyErr(res, userChecking.message);
+            return false;
+        }
+
+        // check if password is valid
+        const passwordChecking = checkPasswordSecurity(user.password);
+        if(!passwordChecking.success){
+            replyErr(res, passwordChecking.message);
             return false;
         }
 
@@ -42,8 +57,10 @@ export default async function handler(req, res)
                             $set: {
                                 username: user.username,
                                 password: user.password,
+                                email: user.email,
                                 display_name: user.display_name,
-                                roles: user.roles
+                                roles: user.roles,
+                                updated_date: new Date()
                             }
                         }
                     );
@@ -61,7 +78,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("users")
-                    .insertOne(user);
+                    .insertOne({
+                        ...user,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'Users added');
 

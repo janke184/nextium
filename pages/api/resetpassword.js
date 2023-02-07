@@ -2,10 +2,10 @@
 import { getDb } from "connection/connect";
 import { replyErr, replyOk } from "utils/httpUtils";
 import { newEvent } from "utils/eventsUtils";
-import { checkPasswordSecurity } from "utils/userUtils";
 import { createJWT } from "utils/tokenUtils";
 import md5 from "md5";
 import { ROUTE_RESET_PASSWORD } from "utils/routeUtils";
+import { checkPasswordSecurity } from "utils/validationUtils";
 
 export default async function handler(req, res)
 {
@@ -20,6 +20,7 @@ export default async function handler(req, res)
 		console.log('token', token);
 
 
+		// Si tengo token es que estoy cambiando la contraseña
 		if(token){
 
 			if(username){

@@ -37,7 +37,8 @@ export default async function handler(req, res)
                                 name: eventHandler.name,
                                 event_name: eventHandler.event_name,
                                 event_handler: eventHandler.event_handler,
-                                next_event: eventHandler.next_event
+                                next_event: eventHandler.next_event,
+                                updated_date: new Date()
                             }
                         }
                     );
@@ -55,7 +56,10 @@ export default async function handler(req, res)
                 const db = await getDb();
                 const db_res = await db
                     .collection("event_handlers")
-                    .insertOne(eventHandler);
+                    .insertOne({
+                        ...eventHandler,
+                        created_date: new Date()
+                    });
 
                 replyOk(res, 'Event handler added');
 
