@@ -2,28 +2,28 @@
 
 ### Sing In
 
-![Sign In](https://github.com/janke184/nextium/blob/e749d8bab67586ed3405e9b6711d99b600c591ad/public/img/screenshots/01%20-%20Signin.jpg?raw=true)
+![Sign In](https://github.com/janke184/nextium/blob/e749d8bab67586ed3405e9b6711d99b600c591ad/public/img/screenshots/01_-_Signin.jpg?raw=true)
 
 
 ### Password Recovery
 
-![Password Recovery](https://github.com/janke184/nextium/blob/main/public/img/screenshots/02%20-%20password%20recovery.jpg?raw=true)
+![Password Recovery](https://github.com/janke184/nextium/blob/main/public/img/screenshots/02_-_password_recovery.jpg?raw=true)
 
 
 ### Roles Management
-![Roles Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03%20-%20Roles%20Management.jpg?raw=true)
+![Roles Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03_-_Roles_Management.jpg?raw=true)
 
 
 ### User Management
-![User Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03%20-%20User%20Management.jpg?raw=true)
+![User Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/03_-_User_Management.jpg?raw=true)
 
 
 ### Pages Management
-![Pages Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/04%20-%20Pages%20Management.jpg?raw=true)
+![Pages Management](https://github.com/janke184/nextium/blob/main/public/img/screenshots/04_-_Pages_Management.jpg?raw=true)
 
 
 ### Mailing Templates
-![Mailing Templates](https://github.com/janke184/nextium/blob/main/public/img/screenshots/05%20-%20Mailgin%20Templates.jpg?raw=true)
+![Mailing Templates](https://github.com/janke184/nextium/blob/main/public/img/screenshots/05_-_Mailgin_Templates.jpg?raw=true)
 
 
 ### Roles Management
