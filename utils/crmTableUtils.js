@@ -1,4 +1,4 @@
-import { getDb } from "/connection/connect";
+import { getDb, closeDb } from "/connection/connect";
 import { isAllowedUser } from "/utils/userUtils";
 
 

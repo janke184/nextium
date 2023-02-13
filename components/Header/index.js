@@ -14,6 +14,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import { ListSubheader } from '@mui/material';
 import { useState } from 'react';
 import { useAuthenticatedContext } from 'contexts/AuthenticatedContext';
 
@@ -147,12 +148,13 @@ export default function Header(props)
 			</Toolbar>
   
 			<Divider />
-  
+
 			<List component="nav">
-			  {
+			{
+				user && user.roles && user.roles.map((role) => {
 
-				true && user && user.roles && user.roles.map((role) => {
-
+					let current_group = null;
+					let add_group = false;
 					
 					// filter out pages that are not visible
 					role.pages = role.pages.filter((page) => page.visible);
@@ -164,29 +166,56 @@ export default function Header(props)
 
 						if(page.visible)
 						{
+							if(page.group && page.group != current_group)
+							{
+								current_group = page.group;
+								add_group = true;
+							}else{
+								add_group = false;
+								
+							}
+
 							return (
-								<Link key={page._id} href={page.route}>
-									<ListItemButton key={page._id}>
-										<ListItemIcon>
-											<GenericIcon iconName={ page.icon ? page.icon : "ManageAccounts" }/>
-										</ListItemIcon>
-										<ListItemText 
-											primary={page.name} 
-											secondary={page.group} 
-										/>
-									</ListItemButton>
-								</Link>
+								<>
+									<ListSubheader style={
+											{
+												display: add_group && open ? 'block' : 'none',
+											}
+										}
+										component="div" 
+										>
+										{current_group}
+									</ListSubheader>
+
+									<Divider style={
+										{
+											display: add_group && !open ? 'block' : 'none',
+										}
+									}
+
+									/>
+
+									<Link key={page._id} href={page.route}>
+										<ListItemButton key={page._id}>
+											<ListItemIcon>
+												<GenericIcon iconName={ page.icon ? page.icon : "ManageAccounts" }/>
+											</ListItemIcon>
+											<ListItemText 
+												primary={page.name} 
+												secondary={page.group && false} 
+											/>
+										</ListItemButton>
+									</Link>
+								</>
 							);
 						}
-
-
 					});
-
 				})
-			  }
 
-			  <Divider sx={{ my: 1 }} />
+			}	
 			</List>
+
+			<Divider />
   
 		  </Drawer>
 	</>
