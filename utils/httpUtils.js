@@ -29,6 +29,10 @@ export const EP_ADD_MAILING_TEMPLATE = '/mailingtemplate/add';
 export const EP_DELETE_MAILING_TEMPLATE = '/mailingtemplate/delete';
 export const EP_QUERY_GET_MAILING_TEMPLATES = '/query/getmailingtemplates';
 
+export const EP_ADD_PERSON = '/person/add';
+export const EP_DELETE_PERSON = '/person/delete';
+export const EP_QUERY_GET_PEOPLE = '/query/getpeople';
+
 
 
 export const apiCall = async (endpoint, data = {}) => {

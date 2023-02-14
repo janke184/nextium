@@ -14,3 +14,5 @@ export const ROUTE_SMTPS = '/smtps';
 export const ROUTE_SMTPS_ADD = '/smtps/add';
 export const ROUTE_MAILING_TEMPLATES = '/mailingtemplates';
 export const ROUTE_MAILING_TEMPLATES_ADD = '/mailingtemplates/add';
+export const ROUTE_PEOPLE = '/people';
+export const ROUTE_PEOPLE_ADD = '/people/add';
